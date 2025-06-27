@@ -12,188 +12,236 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid p-0">
+    <div class="row g-0">
         <!-- Calculadora - Columna izquierda -->
         <div class="col-lg-8 calculator-section">
-            <div class="calculator-container p-4">
-                <h2 class="calculator-title mb-4">Калькулятор тарифов</h2>
+            <div class="calculator-container p-5">
+                <h2 class="calculator-title mb-5">Калькулятор тарифов</h2>
 
-                <!-- Formulario del calculador -->
-                <form id="calculatorForm">
-                    <!-- Selección de región -->
-                    <div class="form-section mb-4">
-                        <label class="form-label fw-bold">Регион</label>
-                        <div class="custom-select-wrapper">
-                            <select id="regionSelect" class="form-select custom-select" required>
-                                <option value="">Выберите регион</option>
-                                <option value="1" data-max="1200">Москва</option>
-                                <option value="2" data-max="800">Санкт-Петербург</option>
-                                <option value="3" data-max="500">Краснодар</option>
-                            </select>
+                <!-- Selección de región -->
+                <div class="form-group mb-4">
+                    <label class="form-label">Выберите региона для составления расчета:</label>
+                    <select id="regionSelect" class="form-select region-select">
+                        <option value="">Ленинградская область</option>
+                        <option value="1" data-max="1200">Москва</option>
+                        <option value="2" data-max="800">Санкт-Петербург</option>
+                        <option value="3" data-max="500">Краснодар</option>
+                    </select>
+                </div>
+
+                <!-- Прокачка -->
+                <div class="form-group mb-4">
+                    <div class="pumping-header mb-3">
+                        <span class="pumping-label">200 тонн</span>
+                    </div>
+                    <div class="pumping-slider-container">
+                        <input type="range" id="pumpingRange" class="pumping-slider"
+                               min="0" max="1200" value="200" step="50">
+                        <div class="slider-marks">
+                            <span class="mark">0 тонн</span>
+                            <span class="mark">400 тонн</span>
+                            <span class="mark">800 тонн</span>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Прокачка -->
-                    <div class="form-section mb-4">
-                        <label class="form-label fw-bold">Прокачка</label>
-                        <div class="pumping-section">
-                            <div class="pumping-input-group d-flex align-items-center mb-3">
-                                <input type="range" id="pumpingRange" class="form-range flex-grow-1 me-3"
-                                       min="0" max="1200" value="0" step="50">
-                                <div class="pumping-value-wrapper">
-                                    <input type="number" id="pumpingValue" class="form-control pumping-input"
-                                           min="0" max="1200" value="0" step="50">
-                                    <span class="pumping-unit">тонн</span>
-                                </div>
+                <!-- Tipo de combustible -->
+                <div class="form-group mb-4">
+                    <div class="fuel-tabs">
+                        <button type="button" class="fuel-tab active" data-fuel="benzin">Бензин</button>
+                        <button type="button" class="fuel-tab" data-fuel="gaz">Газ</button>
+                        <button type="button" class="fuel-tab" data-fuel="dt">ДТ</button>
+                    </div>
+                </div>
+
+                <!-- Marcas favoritas -->
+                <div class="form-group mb-4">
+                    <label class="form-label">Укажите любимый бренд</label>
+                    <div class="brand-icons">
+                        <div class="brand-item" data-brand="shell">
+                            <div class="brand-circle yellow">
+                                <span>Shell</span>
                             </div>
-                            <div class="pumping-info">
-                                <small class="text-muted">Максимум: <span id="maxPumping">1200</span> тонн</small>
+                            <span class="brand-name">Shell</span>
+                        </div>
+                        <div class="brand-item" data-brand="tatneft">
+                            <div class="brand-circle gray">
+                                <span>T</span>
                             </div>
+                            <span class="brand-name">Татнефть</span>
                         </div>
-                    </div>
-
-                    <!-- Tipo de combustible -->
-                    <div class="form-section mb-4">
-                        <label class="form-label fw-bold">Тип топлива</label>
-                        <div class="fuel-types">
-                            <div class="btn-group w-100" role="group">
-                                <input type="radio" class="btn-check" name="fuelType" id="benzin" value="benzin" checked>
-                                <label class="btn btn-outline-primary" for="benzin">Бензин</label>
-
-                                <input type="radio" class="btn-check" name="fuelType" id="gaz" value="gaz">
-                                <label class="btn btn-outline-primary" for="gaz">Газ</label>
-
-                                <input type="radio" class="btn-check" name="fuelType" id="dt" value="dt">
-                                <label class="btn btn-outline-primary" for="dt">ДТ</label>
+                        <div class="brand-item" data-brand="rosneft">
+                            <div class="brand-circle gray">
+                                <span>R</span>
                             </div>
+                            <span class="brand-name">Роснефть</span>
                         </div>
-                    </div>
-
-                    <!-- Marcas -->
-                    <div class="form-section mb-4">
-                        <label class="form-label fw-bold">Бренд</label>
-                        <div class="custom-select-wrapper">
-                            <select id="brandSelect" class="form-select custom-select" required>
-                                <option value="">Выберите бренд</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Servicios adicionales -->
-                    <div class="form-section mb-4">
-                        <label class="form-label fw-bold">Дополнительные услуги</label>
-                        <small class="text-muted d-block mb-3">Выберите не более 4 услуг</small>
-                        <div class="additional-services">
-                            <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <div class="form-check service-check">
-                                        <input class="form-check-input" type="checkbox" value="service1" id="service1">
-                                        <label class="form-check-label" for="service1">
-                                            Мониторинг качества
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <div class="form-check service-check">
-                                        <input class="form-check-input" type="checkbox" value="service2" id="service2">
-                                        <label class="form-check-label" for="service2">
-                                            Экспресс-доставка
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <div class="form-check service-check">
-                                        <input class="form-check-input" type="checkbox" value="service3" id="service3">
-                                        <label class="form-check-label" for="service3">
-                                            Техническая поддержка 24/7
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <div class="form-check service-check">
-                                        <input class="form-check-input" type="checkbox" value="service4" id="service4">
-                                        <label class="form-check-label" for="service4">
-                                            Страхование груза
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <div class="form-check service-check">
-                                        <input class="form-check-input" type="checkbox" value="service5" id="service5">
-                                        <label class="form-check-label" for="service5">
-                                            Аналитика потребления
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <div class="form-check service-check">
-                                        <input class="form-check-input" type="checkbox" value="service6" id="service6">
-                                        <label class="form-check-label" for="service6">
-                                            Персональный менеджер
-                                        </label>
-                                    </div>
-                                </div>
+                        <div class="brand-item" data-brand="lukoil">
+                            <div class="brand-circle gray">
+                                <span>L</span>
                             </div>
+                            <span class="brand-name">Лукойл</span>
                         </div>
-                    </div>
-                </form>
-
-                <!-- Resultados del cálculo -->
-                <div class="calculation-results">
-                    <!-- Tarifa actual -->
-                    <div class="tariff-display mb-4">
-                        <div class="tariff-card">
-                            <div class="tariff-image">
-                                <img src="https://via.placeholder.com/200x120/4ECDC4/ffffff?text=Tariff" alt="Tariff" class="img-fluid">
+                        <div class="brand-item" data-brand="gazprom">
+                            <div class="brand-circle gray">
+                                <span>G</span>
                             </div>
-                            <div class="tariff-info">
-                                <h4 id="currentTariff">Избранный</h4>
-                                <p class="tariff-description">Оптимальный выбор для большинства компаний</p>
+                            <span class="brand-name">Газпром</span>
+                        </div>
+                        <div class="brand-item" data-brand="bashneft">
+                            <div class="brand-circle gray">
+                                <span>B</span>
                             </div>
+                            <span class="brand-name">Башнефть</span>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Promociones -->
-                    <div class="promo-section mb-4">
-                        <label class="form-label fw-bold">Выберите промо-акцию</label>
-                        <div id="promoOptions" class="promo-options">
-                            <!-- Se llenará dinámicamente -->
-                        </div>
-                    </div>
-
-                    <!-- Economía -->
-                    <div class="savings-section mb-4">
-                        <div class="savings-card">
-                            <h5>Ваша экономия</h5>
-                            <div class="savings-details">
-                                <div class="saving-item">
-                                    <span class="saving-label">В месяц:</span>
-                                    <span class="saving-value" id="monthlySavings">0 ₽</span>
-                                </div>
-                                <div class="saving-item">
-                                    <span class="saving-label">В год:</span>
-                                    <span class="saving-value" id="yearlySavings">0 ₽</span>
-                                </div>
+                <!-- Servicios adicionales -->
+                <div class="form-group mb-5">
+                    <label class="form-label">Дополнительные услуги</label>
+                    <div class="service-icons">
+                        <div class="service-item">
+                            <div class="service-circle">
+                                <i class="fas fa-chart-line"></i>
                             </div>
+                            <span class="service-name">Штрафы</span>
                         </div>
-                    </div>
-
-                    <!-- Botón de pedido -->
-                    <div class="order-section">
-                        <button type="button" class="btn btn-primary btn-lg w-100" id="orderButton" data-bs-toggle="modal" data-bs-target="#orderModal">
-                            Заказать тариф «<span id="orderTariffName">Избранный</span>»
-                        </button>
+                        <div class="service-item active">
+                            <div class="service-circle">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <span class="service-name">Страхование</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-circle">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <span class="service-name">SMS</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-circle">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <span class="service-name">Мониторинг</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-circle">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <span class="service-name">Поддержка</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-circle">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <span class="service-name">Экспресс</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-circle">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <span class="service-name">Отчеты</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-circle">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="service-name">СМС</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-circle">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <span class="service-name">Оповещения</span>
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <!-- Pop-up info - Columna derecha -->
-        <div class="col-lg-4 popup-section">
-            <div class="popup-container">
-                <!-- Aquí irá la información del pop-up -->
+        <!-- Tarjeta y resultados - Columna derecha -->
+        <div class="col-lg-4 results-section">
+            <div class="results-container p-4">
+
+                <!-- Tarjeta de crédito -->
+                <div class="credit-card-section mb-4">
+                    <div class="tariff-badge">
+                        <span class="current-tariff">Подходящий тариф</span>
+                        <span class="tariff-name">Избранный</span>
+                    </div>
+
+                    <div class="credit-card">
+                        <div class="card-gradient"></div>
+                        <div class="card-content">
+                            <div class="visa-logo">VISA</div>
+                            <div class="card-number">•••• •••• •••• 4423</div>
+                            <div class="card-bottom">
+                                <span class="card-holder">Jonah Hawes</span>
+                                <span class="card-expiry">17/11</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Есть АЗС на карте</span>
+                    </div>
+                </div>
+
+                <!-- Promociones -->
+                <div class="promo-section mb-4">
+                    <label class="section-label">Выберите промо-акцию:</label>
+                    <div class="promo-grid">
+                        <div class="promo-item">
+                            <div class="promo-circle">
+                                <span class="promo-percent">50%</span>
+                            </div>
+                            <span class="promo-text">Экономия на литр-сезе</span>
+                        </div>
+                        <div class="promo-item">
+                            <div class="promo-circle gray">
+                                <span class="promo-percent">20%</span>
+                            </div>
+                            <span class="promo-text">Возврат НДС</span>
+                        </div>
+                        <div class="promo-item">
+                            <div class="promo-circle gray">
+                                <span class="promo-percent">5%</span>
+                            </div>
+                            <span class="promo-text">Скидка на литр</span>
+                        </div>
+                        <div class="promo-item">
+                            <div class="promo-circle gray">
+                                <span class="promo-percent">2%</span>
+                            </div>
+                            <span class="promo-text">Скидка на заправки</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Economía -->
+                <div class="savings-section mb-4">
+                    <h5 class="section-label">Ваша экономия:</h5>
+                    <div class="savings-amounts">
+                        <div class="saving-row">
+                            <span class="saving-period">экономия в год</span>
+                            <span class="saving-amount">от 34 млн Р</span>
+                        </div>
+                        <div class="saving-row">
+                            <span class="saving-period">экономия в месяц</span>
+                            <span class="saving-amount">от 1 700 000 Р</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de pedido -->
+                <button class="order-btn" data-bs-toggle="modal" data-bs-target="#orderModal">
+                    Заказать тариф «Избранный» →
+                </button>
+
             </div>
         </div>
     </div>
@@ -201,7 +249,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="orderModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Заказать тариф «Избранный»</h5>
@@ -209,55 +257,33 @@
             </div>
             <div class="modal-body">
                 <form id="orderForm">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="clientName" class="form-label">Имя для связи *</label>
-                            <input type="text" class="form-control" id="clientName" name="clientName" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="clientCompany" class="form-label">Название компании *</label>
-                            <input type="text" class="form-control" id="clientCompany" name="clientCompany" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="clientInn" class="form-label">Номер ИНН *</label>
-                            <input type="text" class="form-control" id="clientInn" name="clientInn"
-                                   pattern="[0-9]{12}" maxlength="12" required>
-                            <div class="form-text">12 цифр</div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="clientPhone" class="form-label">Телефон для связи *</label>
-                            <input type="tel" class="form-control" id="clientPhone" name="clientPhone"
-                                   pattern="[0-9]{11}" maxlength="11" required>
-                            <div class="form-text">11 цифр</div>
-                        </div>
-                    </div>
-
                     <div class="mb-3">
-                        <label for="clientEmail" class="form-label">E-mail для связи *</label>
-                        <input type="email" class="form-control" id="clientEmail" name="clientEmail" required>
+                        <input type="text" class="form-control" id="clientInn" name="clientInn"
+                               placeholder="Номер ИНН" pattern="[0-9]{12}" maxlength="12" required>
                     </div>
-
                     <div class="mb-3">
+                        <input type="tel" class="form-control" id="clientPhone" name="clientPhone"
+                               placeholder="Телефон для связи" pattern="[0-9]{11}" maxlength="11" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="clientEmail" name="clientEmail"
+                               placeholder="E-mail для связи" required>
+                    </div>
+                    <div class="mb-4">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="agreeTerms" name="agreeTerms" required>
                             <label class="form-check-label" for="agreeTerms">
-                                Согласен с условиями обработки персональных данных *
+                                Согласен с обработкой персональных данных
                             </label>
                         </div>
                     </div>
-
-                    <!-- Mensaje de resultado -->
-                    <div id="formMessage" class="mb-3" style="display: none;">
-                        <!-- Aquí aparecerán los mensajes de éxito o error -->
-                    </div>
+                    <div id="formMessage" class="mb-3" style="display: none;"></div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-primary" id="submitOrder">Отправить заявку</button>
+                <button type="button" class="btn btn-order w-100" id="submitOrder">
+                    Заказать тариф «Избранный»
+                </button>
             </div>
         </div>
     </div>
