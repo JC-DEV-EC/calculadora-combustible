@@ -30,3 +30,77 @@ body {
     color: #333;
     font-weight: 600;
 }
+/* Secciones del formulario */
+.form-section {
+    padding: 20px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Custom Select */
+.custom-select-wrapper {
+    position: relative;
+}
+
+.custom-select {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+    background-color: white;
+}
+
+.custom-select:focus {
+    border-color: #4ECDC4;
+    box-shadow: 0 0 0 0.25rem rgba(78, 205, 196, 0.25);
+}
+
+/* Prокачка styles */
+.pumping-input-group {
+    gap: 15px;
+}
+
+.pumping-value-wrapper {
+    position: relative;
+    min-width: 120px;
+}
+
+.pumping-input {
+    padding-right: 50px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+.pumping-unit {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 14px;
+}
+
+/* Form range custom */
+.form-range {
+    height: 6px;
+}
+
+.form-range::-webkit-slider-thumb {
+    background-color: #4ECDC4;
+    border: none;
+    height: 20px;
+    width: 20px;
+}
+
+/* Fuel types */
+.fuel-types .btn {
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-weight: 500;
+}
+
+.fuel-types .btn-check:checked + .btn {
+    background-color: #4ECDC4;
+    border-color: #4ECDC4;
+}
