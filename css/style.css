@@ -104,3 +104,120 @@ body {
     background-color: #4ECDC4;
     border-color: #4ECDC4;
 }
+/* Servicios adicionales */
+.service-check {
+    padding: 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.service-check:hover {
+    background-color: #f8f9fa;
+}
+
+.service-check .form-check-input:checked {
+    background-color: #4ECDC4;
+    border-color: #4ECDC4;
+}
+
+/* Resultados del cálculo */
+.calculation-results {
+    margin-top: 30px;
+}
+
+/* Tarifa */
+.tariff-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.tariff-image img {
+    border-radius: 8px;
+}
+
+.tariff-info h4 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.tariff-description {
+    color: #666;
+    margin: 0;
+}
+
+/* Promociones */
+.promo-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.promo-option {
+    flex: 1;
+    min-width: 120px;
+}
+
+.promo-option input[type="radio"] {
+    display: none;
+}
+
+.promo-option label {
+    display: block;
+    padding: 12px 16px;
+    background-color: #f8f9fa;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.promo-option input[type="radio"]:checked + label {
+    background-color: #4ECDC4;
+    border-color: #4ECDC4;
+    color: white;
+}
+
+/* Economía */
+.savings-card {
+    background: linear-gradient(135deg, #4ECDC4, #44A08D);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.savings-card h5 {
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.saving-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.saving-value {
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+/* Botón de pedido */
+.order-section .btn {
+    background-color: #4ECDC4;
+    border-color: #4ECDC4;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.order-section .btn:hover {
+    background-color: #44A08D;
+    border-color: #44A08D;
+}

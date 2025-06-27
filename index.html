@@ -79,7 +79,113 @@
                             </select>
                         </div>
                     </div>
+
+                    <!-- Servicios adicionales -->
+                    <div class="form-section mb-4">
+                        <label class="form-label fw-bold">Дополнительные услуги</label>
+                        <small class="text-muted d-block mb-3">Выберите не более 4 услуг</small>
+                        <div class="additional-services">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check service-check">
+                                        <input class="form-check-input" type="checkbox" value="service1" id="service1">
+                                        <label class="form-check-label" for="service1">
+                                            Мониторинг качества
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check service-check">
+                                        <input class="form-check-input" type="checkbox" value="service2" id="service2">
+                                        <label class="form-check-label" for="service2">
+                                            Экспресс-доставка
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check service-check">
+                                        <input class="form-check-input" type="checkbox" value="service3" id="service3">
+                                        <label class="form-check-label" for="service3">
+                                            Техническая поддержка 24/7
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check service-check">
+                                        <input class="form-check-input" type="checkbox" value="service4" id="service4">
+                                        <label class="form-check-label" for="service4">
+                                            Страхование груза
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check service-check">
+                                        <input class="form-check-input" type="checkbox" value="service5" id="service5">
+                                        <label class="form-check-label" for="service5">
+                                            Аналитика потребления
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check service-check">
+                                        <input class="form-check-input" type="checkbox" value="service6" id="service6">
+                                        <label class="form-check-label" for="service6">
+                                            Персональный менеджер
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
+
+                <!-- Resultados del cálculo -->
+                <div class="calculation-results">
+                    <!-- Tarifa actual -->
+                    <div class="tariff-display mb-4">
+                        <div class="tariff-card">
+                            <div class="tariff-image">
+                                <img src="https://via.placeholder.com/200x120/4ECDC4/ffffff?text=Tariff" alt="Tariff" class="img-fluid">
+                            </div>
+                            <div class="tariff-info">
+                                <h4 id="currentTariff">Избранный</h4>
+                                <p class="tariff-description">Оптимальный выбор для большинства компаний</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Promociones -->
+                    <div class="promo-section mb-4">
+                        <label class="form-label fw-bold">Выберите промо-акцию</label>
+                        <div id="promoOptions" class="promo-options">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Economía -->
+                    <div class="savings-section mb-4">
+                        <div class="savings-card">
+                            <h5>Ваша экономия</h5>
+                            <div class="savings-details">
+                                <div class="saving-item">
+                                    <span class="saving-label">В месяц:</span>
+                                    <span class="saving-value" id="monthlySavings">0 ₽</span>
+                                </div>
+                                <div class="saving-item">
+                                    <span class="saving-label">В год:</span>
+                                    <span class="saving-value" id="yearlySavings">0 ₽</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón de pedido -->
+                    <div class="order-section">
+                        <button type="button" class="btn btn-primary btn-lg w-100" id="orderButton" data-bs-toggle="modal" data-bs-target="#orderModal">
+                            Заказать тариф «<span id="orderTariffName">Избранный</span>»
+                        </button>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -95,7 +201,66 @@
 
 <!-- Modal -->
 <div class="modal fade" id="orderModal" tabindex="-1">
-    <!-- Aquí irá el modal -->
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Заказать тариф «Избранный»</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="clientName" class="form-label">Имя для связи *</label>
+                            <input type="text" class="form-control" id="clientName" name="clientName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="clientCompany" class="form-label">Название компании *</label>
+                            <input type="text" class="form-control" id="clientCompany" name="clientCompany" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="clientInn" class="form-label">Номер ИНН *</label>
+                            <input type="text" class="form-control" id="clientInn" name="clientInn"
+                                   pattern="[0-9]{12}" maxlength="12" required>
+                            <div class="form-text">12 цифр</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="clientPhone" class="form-label">Телефон для связи *</label>
+                            <input type="tel" class="form-control" id="clientPhone" name="clientPhone"
+                                   pattern="[0-9]{11}" maxlength="11" required>
+                            <div class="form-text">11 цифр</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="clientEmail" class="form-label">E-mail для связи *</label>
+                        <input type="email" class="form-control" id="clientEmail" name="clientEmail" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                Согласен с условиями обработки персональных данных *
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Mensaje de resultado -->
+                    <div id="formMessage" class="mb-3" style="display: none;">
+                        <!-- Aquí aparecerán los mensajes de éxito o error -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" id="submitOrder">Отправить заявку</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Bootstrap 5 JS -->
