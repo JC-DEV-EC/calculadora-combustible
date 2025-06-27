@@ -1,0 +1,32 @@
+/* Reset y base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Layout principal */
+.calculator-section {
+    background-color: white;
+    min-height: 100vh;
+}
+
+.popup-section {
+    background-color: #4ECDC4;
+    min-height: 100vh;
+}
+
+.calculator-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.calculator-title {
+    color: #333;
+    font-weight: 600;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Combustible</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Calculadora - Columna izquierda -->
+        <div class="col-lg-8 calculator-section">
+            <div class="calculator-container p-4">
+                <h2 class="calculator-title mb-4">Калькулятор тарифов</h2>
+
+                <!-- Formulario del calculador -->
+                <form id="calculatorForm">
+                    <!-- Selección de región -->
+                    <div class="form-section mb-4">
+                        <label class="form-label fw-bold">Регион</label>
+                        <div class="custom-select-wrapper">
+                            <select id="regionSelect" class="form-select custom-select" required>
+                                <option value="">Выберите регион</option>
+                                <option value="1" data-max="1200">Москва</option>
+                                <option value="2" data-max="800">Санкт-Петербург</option>
+                                <option value="3" data-max="500">Краснодар</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Прокачка -->
+                    <div class="form-section mb-4">
+                        <label class="form-label fw-bold">Прокачка</label>
+                        <div class="pumping-section">
+                            <div class="pumping-input-group d-flex align-items-center mb-3">
+                                <input type="range" id="pumpingRange" class="form-range flex-grow-1 me-3"
+                                       min="0" max="1200" value="0" step="50">
+                                <div class="pumping-value-wrapper">
+                                    <input type="number" id="pumpingValue" class="form-control pumping-input"
+                                           min="0" max="1200" value="0" step="50">
+                                    <span class="pumping-unit">тонн</span>
+                                </div>
+                            </div>
+                            <div class="pumping-info">
+                                <small class="text-muted">Максимум: <span id="maxPumping">1200</span> тонн</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tipo de combustible -->
+                    <div class="form-section mb-4">
+                        <label class="form-label fw-bold">Тип топлива</label>
+                        <div class="fuel-types">
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="fuelType" id="benzin" value="benzin" checked>
+                                <label class="btn btn-outline-primary" for="benzin">Бензин</label>
+
+                                <input type="radio" class="btn-check" name="fuelType" id="gaz" value="gaz">
+                                <label class="btn btn-outline-primary" for="gaz">Газ</label>
+
+                                <input type="radio" class="btn-check" name="fuelType" id="dt" value="dt">
+                                <label class="btn btn-outline-primary" for="dt">ДТ</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Marcas -->
+                    <div class="form-section mb-4">
+                        <label class="form-label fw-bold">Бренд</label>
+                        <div class="custom-select-wrapper">
+                            <select id="brandSelect" class="form-select custom-select" required>
+                                <option value="">Выберите бренд</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Pop-up info - Columna derecha -->
+        <div class="col-lg-4 popup-section">
+            <div class="popup-container">
+                <!-- Aquí irá la información del pop-up -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <!-- Aquí irá el modal -->
+</div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Tu JavaScript -->
+<script src="js/script.js"></script>
+</body>
+</html>
