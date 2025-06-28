@@ -22,12 +22,19 @@
                 <!-- Selección de región -->
                 <div class="form-group mb-4">
                     <label class="form-label">Выберите региона для составления расчета:</label>
-                    <select id="regionSelect" class="form-select region-select">
-                        <option value="">Ленинградская область</option>
-                        <option value="1" data-max="1200">Москва</option>
-                        <option value="2" data-max="800">Санкт-Петербург</option>
-                        <option value="3" data-max="500">Краснодар</option>
-                    </select>
+                    <div class="custom-select-container">
+                        <div class="custom-select-display" id="regionDisplay">
+                            <span class="selected-text">Ленинградская область</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="custom-select-dropdown" id="regionDropdown">
+                            <div class="custom-select-option" data-value="" data-max="1200">Ленинградская область</div>
+                            <div class="custom-select-option" data-value="1" data-max="1200">Москва</div>
+                            <div class="custom-select-option" data-value="2" data-max="800">Санкт-Петербург</div>
+                            <div class="custom-select-option" data-value="3" data-max="500">Краснодар</div>
+                        </div>
+                        <input type="hidden" id="regionSelect" name="region" value="">
+                    </div>
                 </div>
 
                 <!-- Прокачка -->

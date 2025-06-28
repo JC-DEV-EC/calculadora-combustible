@@ -59,13 +59,46 @@ $(document).ready(function() {
     }
 
     function bindEvents() {
-        // Cambio de región
+        // Custom select para regiones
+        $('#regionDisplay').on('click', function(e) {
+            e.stopPropagation();
+            $(this).toggleClass('active');
+            $('#regionDropdown').toggleClass('show');
+        });
+
+        $('.custom-select-option').on('click', function() {
+            const value = $(this).data('value');
+            const text = $(this).text();
+            const maxPumping = $(this).data('max');
+
+            $('#regionDisplay .selected-text').text(text);
+            $('#regionSelect').val(value);
+            $('#regionDropdown').removeClass('show');
+            $('#regionDisplay').removeClass('active');
+
+            $('.custom-select-option').removeClass('selected');
+            $(this).addClass('selected');
+
+            currentState.region = value;
+            if (value) {
+                updateSliderMax(maxPumping);
+                calculateAllAjax(); // Usar AJAX
+            }
+        });
+
+        // Cerrar dropdown al hacer click fuera
+        $(document).on('click', function() {
+            $('#regionDropdown').removeClass('show');
+            $('#regionDisplay').removeClass('active');
+        });
+
+        // Cambio de región (mantenemos por compatibilidad)
         $('#regionSelect').on('change', function() {
             currentState.region = $(this).val();
             if (currentState.region) {
                 const maxPumping = regionLimits[currentState.region];
                 updateSliderMax(maxPumping);
-                calculateAll();
+                calculateAllAjax();
             }
         });
 
@@ -73,7 +106,7 @@ $(document).ready(function() {
         $('#pumpingRange').on('input', function() {
             currentState.pumping = parseInt($(this).val());
             updatePumpingDisplay();
-            calculateAll();
+            calculateAllAjax(); // Usar AJAX
         });
 
         // Tabs de combustible
@@ -82,7 +115,7 @@ $(document).ready(function() {
             $(this).addClass('active');
             currentState.fuelType = $(this).data('fuel');
             updateBrands();
-            calculateAll();
+            calculateAllAjax(); // Usar AJAX
         });
 
         // Selección de marcas
@@ -94,16 +127,28 @@ $(document).ready(function() {
                 $('.brand-item').removeClass('active');
                 $(this).addClass('active');
                 currentState.brand = brandId;
-                calculateAll();
+                calculateAllAjax(); // Usar AJAX
             }
         });
 
-        // Servicios adicionales
+        // Servicios adicionales (máximo 4)
         $('.service-item').on('click', function() {
-            if (currentState.services.length < 4 || $(this).hasClass('active')) {
-                $(this).toggleClass('active');
+            const isActive = $(this).hasClass('active');
+            const activeCount = $('.service-item.active').length;
+
+            if (isActive) {
+                // Si está activo, desactivar
+                $(this).removeClass('active');
                 updateServices();
-                calculateAll();
+                calculateAllAjax(); // Usar AJAX
+            } else if (activeCount < 4) {
+                // Si no está activo y hay menos de 4, activar
+                $(this).addClass('active');
+                updateServices();
+                calculateAllAjax(); // Usar AJAX
+            } else {
+                // Si ya hay 4 servicios, mostrar mensaje
+                alert('Можно выбрать не более 4 услуг');
             }
         });
 
@@ -114,7 +159,7 @@ $(document).ready(function() {
 
             const promoValue = parseFloat($(this).data('promo'));
             currentState.promo = promoValue;
-            calculateAll();
+            calculateAllAjax(); // Usar AJAX
         });
 
         // Envío del formulario modal
@@ -252,10 +297,13 @@ $(document).ready(function() {
         const tariffDiscount = tariffDiscounts[currentState.tariff];
         const promoDiscount = currentState.promo;
 
-        const totalDiscount = tariffDiscount + promoDiscount;
-        const monthlyCost = baseCost * (1 - totalDiscount);
+        // Calcular descuentos en rublos
+        const tariffSavingsRub = baseCost * tariffDiscount;
+        const promoSavingsRub = baseCost * promoDiscount;
+        const totalSavingsRub = tariffSavingsRub + promoSavingsRub;
 
-        const monthlySavings = baseCost * totalDiscount;
+        const monthlyCost = baseCost - totalSavingsRub;
+        const monthlySavings = totalSavingsRub;
         const yearlySavings = monthlySavings * 12;
 
         // Formatear números
@@ -272,6 +320,14 @@ $(document).ready(function() {
         // Actualizar UI
         $('.saving-row').eq(0).find('.saving-amount').text('от ' + formatNumber(yearlySavings));
         $('.saving-row').eq(1).find('.saving-amount').text('от ' + formatNumber(monthlySavings));
+
+        // Guardar valores para envío
+        currentState.calculations = {
+            monthlyCost: monthlyCost,
+            monthlySavings: monthlySavings,
+            yearlySavings: yearlySavings,
+            totalDiscountPercent: Math.round((tariffDiscount + promoDiscount) * 100)
+        };
     }
 
     function updateSlider() {
@@ -358,16 +414,20 @@ $(document).ready(function() {
         // Показать loading
         $('#submitOrder').prop('disabled', true).text('Отправка...');
 
-        // Подготовить данные для отправки
+        // Preparar datos para envío (incluyendo cálculos)
         const orderData = {
-            // Данные калькулятора
+            // Datos kalkulátора
             region: $('#regionSelect option:selected').text(),
             pumping: currentState.pumping,
-            fuelType: currentState.fuelType,
-            brand: currentState.brand,
-            services: currentState.services.join(', '),
-            tariff: currentState.tariff,
+            fuelType: getFuelTypeName(currentState.fuelType),
+            brand: getBrandName(currentState.brand),
+            services: currentState.services.join(', ') || 'Нет',
+            tariff: getTariffName(currentState.tariff),
             promo: Math.round(currentState.promo * 100) + '%',
+            monthlyCost: Math.round(currentState.calculations.monthlyCost),
+            totalDiscountPercent: currentState.calculations.totalDiscountPercent + '%',
+            monthlySavings: Math.round(currentState.calculations.monthlySavings),
+            yearlySavings: Math.round(currentState.calculations.yearlySavings),
 
             // Данные клиента
             inn: inn,
@@ -410,6 +470,76 @@ $(document).ready(function() {
                 $('#formMessage').fadeOut();
             }, 3000);
         }
+    }
+
+    // Función AJAX para cálculos en backend
+    function calculateAllAjax() {
+        if (!currentState.region || !currentState.brand) {
+            calculateAll(); // Fallback a cálculo local
+            return;
+        }
+
+        const calculationData = {
+            region: currentState.region,
+            pumping: currentState.pumping,
+            fuelType: currentState.fuelType,
+            brand: currentState.brand,
+            promo: currentState.promo
+        };
+
+        $.ajax({
+            url: 'php/calculate.php',
+            method: 'POST',
+            data: calculationData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Actualizar UI con datos del backend
+                    currentState.tariff = response.data.tariff;
+                    currentState.calculations = {
+                        monthlyCost: response.data.monthlyCost,
+                        monthlySavings: response.data.monthlySavings,
+                        yearlySavings: response.data.yearlySavings,
+                        totalDiscountPercent: response.data.totalDiscount
+                    };
+
+                    // Actualizar interfaz
+                    $('.tariff-name').text(response.data.tariffName);
+                    $('#orderTariffName, .modal-title').text(`Заказать тариф «${response.data.tariffName}»`);
+
+                    updatePromoOptions();
+
+                    $('.saving-row').eq(0).find('.saving-amount').text(response.data.formatted.yearlySavings);
+                    $('.saving-row').eq(1).find('.saving-amount').text(response.data.formatted.monthlySavings);
+                } else {
+                    console.error('Error en cálculo:', response.error);
+                    calculateAll(); // Fallback
+                }
+            },
+            error: function() {
+                console.error('Error AJAX');
+                calculateAll(); // Fallback a cálculo local
+            }
+        });
+    }
+
+    // Funciones auxiliares para nombres
+    function getFuelTypeName(fuelType) {
+        const names = { benzin: 'Бензин', gaz: 'Газ', dt: 'ДТ' };
+        return names[fuelType] || fuelType;
+    }
+
+    function getBrandName(brand) {
+        const names = {
+            shell: 'Shell', tatneft: 'Татнефть', rosneft: 'Роснефть',
+            lukoil: 'Лукойл', gazprom: 'Газпром', bashneft: 'Башнефть'
+        };
+        return names[brand] || brand;
+    }
+
+    function getTariffName(tariff) {
+        const names = { econom: 'Эконом', selected: 'Избранный', premium: 'Премиум' };
+        return names[tariff] || tariff;
     }
 
 });

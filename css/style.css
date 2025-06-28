@@ -51,26 +51,85 @@ body {
     font-weight: 500;
 }
 
-/* Selector de región */
-.region-select {
+/* Custom Select estilizado */
+.custom-select-container {
+    position: relative;
+}
+
+.custom-select-display {
     width: 100%;
-    padding: 15px 20px;
+    padding: 15px 50px 15px 20px;
     border: 2px solid #e1e5e9;
     border-radius: 12px;
     font-size: 16px;
     background-color: white;
     color: #333;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 12px center;
-    background-repeat: no-repeat;
-    background-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
 }
 
-.region-select:focus {
-    outline: none;
+.custom-select-display:hover {
+    border-color: #14b8a6;
+}
+
+.custom-select-display.active {
     border-color: #14b8a6;
     box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+.custom-select-display i {
+    color: #6b7280;
+    transition: transform 0.2s;
+}
+
+.custom-select-display.active i {
+    transform: rotate(180deg);
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #14b8a6;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: none;
+    margin-top: 4px;
+}
+
+.custom-select-dropdown.show {
+    display: block;
+}
+
+.custom-select-option {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 16px;
+    color: #333;
+}
+
+.custom-select-option:hover {
+    background-color: #f0fdfa;
+}
+
+.custom-select-option:first-child {
+    border-radius: 10px 10px 0 0;
+}
+
+.custom-select-option:last-child {
+    border-radius: 0 0 10px 10px;
+}
+
+.custom-select-option.selected {
+    background-color: #14b8a6;
+    color: white;
 }
 
 /* Slider de прокачка */
