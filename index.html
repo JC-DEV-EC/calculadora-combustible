@@ -12,15 +12,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="container-fluid p-0">
-    <div class="row g-0">
-        <!-- Calculadora - Columna izquierda -->
-        <div class="col-lg-8 calculator-section">
-            <div class="calculator-container p-5">
-                <h2 class="calculator-title mb-5">Калькулятор тарифов</h2>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Calculadora - Columna izquierda (más ancha como en Figma) -->
+        <div class="col-lg-8 col-xl-7 calculator-section">
+            <div class="calculator-container">
+                <h2 class="calculator-title">Калькулятор тарифов</h2>
 
                 <!-- Selección de región -->
-                <div class="form-group mb-4">
+                <div class="form-group">
                     <label class="form-label">Выберите региона для составления расчета:</label>
                     <div class="custom-select-container">
                         <div class="custom-select-display" id="regionDisplay">
@@ -38,13 +38,13 @@
                 </div>
 
                 <!-- Прокачка -->
-                <div class="form-group mb-4">
-                    <div class="pumping-header mb-3">
-                        <span class="pumping-label">200 тонн</span>
-                    </div>
-                    <div class="pumping-slider-container">
-                        <input type="range" id="pumpingRange" class="pumping-slider"
-                               min="0" max="1200" value="200" step="50">
+                <div class="form-group">
+                    <div class="pumping-section">
+                        <div class="pumping-label">200 тонн</div>
+                        <div class="pumping-slider-container">
+                            <input type="range" id="pumpingRange" class="pumping-slider"
+                                   min="0" max="1200" value="200" step="50">
+                        </div>
                         <div class="slider-marks">
                             <span class="mark">0 тонн</span>
                             <span class="mark">400 тонн</span>
@@ -54,7 +54,7 @@
                 </div>
 
                 <!-- Tipo de combustible -->
-                <div class="form-group mb-4">
+                <div class="form-group">
                     <div class="fuel-tabs">
                         <button type="button" class="fuel-tab active" data-fuel="benzin">Бензин</button>
                         <button type="button" class="fuel-tab" data-fuel="gaz">Газ</button>
@@ -63,42 +63,42 @@
                 </div>
 
                 <!-- Marcas favoritas -->
-                <div class="form-group mb-4">
+                <div class="form-group">
                     <label class="form-label">Укажите любимый бренд</label>
                     <div class="brand-icons">
-                        <div class="brand-item" data-brand="shell">
+                        <div class="brand-item active" data-brand="shell">
                             <div class="brand-circle yellow">
                                 <span>Shell</span>
                             </div>
                             <span class="brand-name">Shell</span>
                         </div>
                         <div class="brand-item" data-brand="tatneft">
-                            <div class="brand-circle gray">
-                                <span>T</span>
+                            <div class="brand-circle">
+                                <span>Т</span>
                             </div>
                             <span class="brand-name">Татнефть</span>
                         </div>
                         <div class="brand-item" data-brand="rosneft">
-                            <div class="brand-circle gray">
-                                <span>R</span>
+                            <div class="brand-circle">
+                                <span>Р</span>
                             </div>
                             <span class="brand-name">Роснефть</span>
                         </div>
                         <div class="brand-item" data-brand="lukoil">
-                            <div class="brand-circle gray">
-                                <span>L</span>
+                            <div class="brand-circle">
+                                <span>Л</span>
                             </div>
                             <span class="brand-name">Лукойл</span>
                         </div>
                         <div class="brand-item" data-brand="gazprom">
-                            <div class="brand-circle gray">
-                                <span>G</span>
+                            <div class="brand-circle">
+                                <span>Г</span>
                             </div>
                             <span class="brand-name">Газпром</span>
                         </div>
                         <div class="brand-item" data-brand="bashneft">
-                            <div class="brand-circle gray">
-                                <span>B</span>
+                            <div class="brand-circle">
+                                <span>Б</span>
                             </div>
                             <span class="brand-name">Башнефть</span>
                         </div>
@@ -106,7 +106,7 @@
                 </div>
 
                 <!-- Servicios adicionales -->
-                <div class="form-group mb-5">
+                <div class="form-group">
                     <label class="form-label">Дополнительные услуги</label>
                     <div class="service-icons">
                         <div class="service-item">
@@ -117,15 +117,15 @@
                         </div>
                         <div class="service-item active">
                             <div class="service-circle">
-                                <i class="fas fa-shield-alt"></i>
+                                <i class="fas fa-file-invoice"></i>
                             </div>
-                            <span class="service-name">Страхование</span>
+                            <span class="service-name">Паслуги</span>
                         </div>
                         <div class="service-item">
                             <div class="service-circle">
-                                <i class="fas fa-credit-card"></i>
+                                <i class="fas fa-mobile-alt"></i>
                             </div>
-                            <span class="service-name">SMS</span>
+                            <span class="service-name">СМС</span>
                         </div>
                         <div class="service-item">
                             <div class="service-circle">
@@ -151,15 +151,15 @@
                             </div>
                             <span class="service-name">Отчеты</span>
                         </div>
-                        <div class="service-item">
+                        <div class="service-item active">
                             <div class="service-circle">
-                                <i class="fas fa-user"></i>
+                                <i class="fas fa-envelope"></i>
                             </div>
                             <span class="service-name">СМС</span>
                         </div>
                         <div class="service-item">
                             <div class="service-circle">
-                                <i class="fas fa-envelope"></i>
+                                <i class="fas fa-bell"></i>
                             </div>
                             <span class="service-name">Оповещения</span>
                         </div>
@@ -169,19 +169,18 @@
             </div>
         </div>
 
-        <!-- Tarjeta y resultados - Columna derecha -->
-        <div class="col-lg-4 results-section">
-            <div class="results-container p-4">
+        <!-- Tarjeta y resultados - Columna derecha (más estrecha como en Figma) -->
+        <div class="col-lg-4 col-xl-5 results-section">
+            <div class="results-container">
 
                 <!-- Tarjeta de crédito -->
-                <div class="credit-card-section mb-4">
+                <div class="credit-card-section">
                     <div class="tariff-badge">
                         <span class="current-tariff">Подходящий тариф</span>
                         <span class="tariff-name">Избранный</span>
                     </div>
 
                     <div class="credit-card">
-                        <div class="card-gradient"></div>
                         <div class="card-content">
                             <div class="visa-logo">VISA</div>
                             <div class="card-number">•••• •••• •••• 4423</div>
@@ -199,38 +198,38 @@
                 </div>
 
                 <!-- Promociones -->
-                <div class="promo-section mb-4">
+                <div class="promo-section">
                     <label class="section-label">Выберите промо-акцию:</label>
                     <div class="promo-grid">
-                        <div class="promo-item">
-                            <div class="promo-circle">
+                        <div class="promo-item" data-promo="0.50">
+                            <div class="promo-circle active">
                                 <span class="promo-percent">50%</span>
                             </div>
-                            <span class="promo-text">Экономия на литр-сезе</span>
+                            <span class="promo-text">Экономия на штрафах</span>
                         </div>
-                        <div class="promo-item">
-                            <div class="promo-circle gray">
+                        <div class="promo-item" data-promo="0.20">
+                            <div class="promo-circle">
                                 <span class="promo-percent">20%</span>
                             </div>
                             <span class="promo-text">Возврат НДС</span>
                         </div>
-                        <div class="promo-item">
-                            <div class="promo-circle gray">
+                        <div class="promo-item" data-promo="0.05">
+                            <div class="promo-circle">
                                 <span class="promo-percent">5%</span>
                             </div>
                             <span class="promo-text">Скидка на литр</span>
                         </div>
-                        <div class="promo-item">
-                            <div class="promo-circle gray">
+                        <div class="promo-item" data-promo="0.02">
+                            <div class="promo-circle">
                                 <span class="promo-percent">2%</span>
                             </div>
-                            <span class="promo-text">Скидка на заправки</span>
+                            <span class="promo-text">Скидка на топливо</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Economía -->
-                <div class="savings-section mb-4">
+                <div class="savings-section">
                     <h5 class="section-label">Ваша экономия:</h5>
                     <div class="savings-amounts">
                         <div class="saving-row">

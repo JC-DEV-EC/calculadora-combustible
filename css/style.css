@@ -7,23 +7,31 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
+    line-height: 1.5;
 }
 
-/* Layout principal */
+/* Layout principal - EXACTO como Figma */
+.container-fluid {
+    padding: 0;
+    max-width: none;
+}
+
 .calculator-section {
-    background-color: white;
+    background-color: #ffffff;
+    padding: 80px 60px 80px 140px;
     min-height: 100vh;
 }
 
 .results-section {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
+    padding: 80px 140px 80px 60px;
     min-height: 100vh;
 }
 
 .calculator-container {
-    max-width: 600px;
+    max-width: 520px;
 }
 
 .results-container {
@@ -32,43 +40,45 @@ body {
 
 /* Título */
 .calculator-title {
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 600;
     color: #1a1a1a;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
+    line-height: 1.2;
 }
 
 /* Form groups */
 .form-group {
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
 }
 
 .form-label {
     font-size: 16px;
-    color: #333;
-    margin-bottom: 12px;
+    color: #374151;
+    margin-bottom: 1rem;
     display: block;
-    font-weight: 500;
+    font-weight: 400;
 }
 
-/* Custom Select estilizado */
+/* Custom Select EXACTO como Figma */
 .custom-select-container {
     position: relative;
 }
 
 .custom-select-display {
     width: 100%;
-    padding: 15px 50px 15px 20px;
-    border: 2px solid #e1e5e9;
-    border-radius: 12px;
+    padding: 16px 50px 16px 20px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
     font-size: 16px;
-    background-color: white;
-    color: #333;
+    background-color: #ffffff;
+    color: #374151;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .custom-select-display:hover {
@@ -82,6 +92,7 @@ body {
 
 .custom-select-display i {
     color: #6b7280;
+    font-size: 14px;
     transition: transform 0.2s;
 }
 
@@ -95,8 +106,8 @@ body {
     left: 0;
     right: 0;
     background: white;
-    border: 2px solid #14b8a6;
-    border-radius: 12px;
+    border: 1px solid #14b8a6;
+    border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     z-index: 1000;
     display: none;
@@ -112,19 +123,11 @@ body {
     cursor: pointer;
     transition: background-color 0.2s;
     font-size: 16px;
-    color: #333;
+    color: #374151;
 }
 
 .custom-select-option:hover {
     background-color: #f0fdfa;
-}
-
-.custom-select-option:first-child {
-    border-radius: 10px 10px 0 0;
-}
-
-.custom-select-option:last-child {
-    border-radius: 0 0 10px 10px;
 }
 
 .custom-select-option.selected {
@@ -132,27 +135,29 @@ body {
     color: white;
 }
 
-/* Slider de прокачка */
-.pumping-header {
-    text-align: center;
+/* Slider de прокачка EXACTO como Figma */
+.pumping-section {
+    text-align: left;
 }
 
 .pumping-label {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 600;
     color: #1a1a1a;
+    margin-bottom: 24px;
+    display: block;
 }
 
 .pumping-slider-container {
     position: relative;
-    margin: 20px 0 40px 0;
+    margin: 24px 0 16px 0;
 }
 
 .pumping-slider {
     width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    background: linear-gradient(to right, #fbbf24 0%, #fbbf24 20%, #e5e7eb 20%, #e5e7eb 100%);
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #fbbf24 0%, #fbbf24 17%, #e5e7eb 17%, #e5e7eb 100%);
     outline: none;
     appearance: none;
     cursor: pointer;
@@ -160,74 +165,78 @@ body {
 
 .pumping-slider::-webkit-slider-thumb {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background: #fbbf24;
     cursor: pointer;
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border: 4px solid white;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
 }
 
 .pumping-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background: #fbbf24;
     cursor: pointer;
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border: 4px solid white;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    border: none;
 }
 
 .slider-marks {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
-    padding: 0 10px;
+    margin-top: 12px;
+    padding: 0 13px;
 }
 
 .slider-marks .mark {
-    font-size: 12px;
-    color: #6b7280;
+    font-size: 13px;
+    color: #9ca3af;
+    font-weight: 400;
 }
 
-/* Tabs de combustible */
+/* Tabs de combustible EXACTO como Figma */
 .fuel-tabs {
     display: flex;
-    background-color: #f3f4f6;
-    border-radius: 12px;
-    padding: 4px;
-    gap: 4px;
+    background-color: transparent;
+    border-bottom: 3px solid #e5e7eb;
+    padding: 0;
+    gap: 0;
 }
 
 .fuel-tab {
     flex: 1;
-    padding: 12px 24px;
+    padding: 16px 32px;
     border: none;
     background: transparent;
-    border-radius: 8px;
+    border-bottom: 3px solid transparent;
     font-size: 16px;
     font-weight: 500;
     color: #6b7280;
     cursor: pointer;
     transition: all 0.2s;
+    position: relative;
+    margin-bottom: -3px;
 }
 
 .fuel-tab.active {
-    background-color: #14b8a6;
-    color: white;
+    color: #14b8a6;
+    border-bottom-color: #14b8a6;
 }
 
-.fuel-tab:hover {
-    background-color: rgba(20, 184, 166, 0.1);
+.fuel-tab:hover:not(.active) {
+    color: #374151;
 }
 
-/* Iconos de marcas */
+/* Iconos de marcas EXACTO como Figma */
 .brand-icons {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 15px;
-    margin-top: 15px;
+    gap: 24px;
+    margin-top: 20px;
 }
 
 .brand-item {
@@ -243,8 +252,8 @@ body {
 }
 
 .brand-circle {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -253,20 +262,13 @@ body {
     font-weight: 600;
     font-size: 14px;
     transition: all 0.2s;
-}
-
-.brand-circle.yellow {
-    background-color: #fbbf24;
-    color: white;
-}
-
-.brand-circle.gray {
     background-color: #e5e7eb;
     color: #6b7280;
 }
 
-.brand-item.active .brand-circle.gray {
-    background-color: #14b8a6;
+.brand-circle.yellow,
+.brand-item.active .brand-circle {
+    background-color: #fbbf24;
     color: white;
 }
 
@@ -276,12 +278,12 @@ body {
     text-align: center;
 }
 
-/* Iconos de servicios */
+/* Iconos de servicios EXACTO como Figma */
 .service-icons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 15px;
+    gap: 24px 20px;
+    margin-top: 20px;
 }
 
 .service-item {
@@ -297,8 +299,8 @@ body {
 }
 
 .service-circle {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background-color: #e5e7eb;
     display: flex;
@@ -306,7 +308,7 @@ body {
     justify-content: center;
     margin-bottom: 8px;
     color: #6b7280;
-    font-size: 18px;
+    font-size: 20px;
     transition: all 0.2s;
 }
 
@@ -324,25 +326,27 @@ body {
 /* Sección de resultados */
 .section-label {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     color: #1a1a1a;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     display: block;
 }
 
-/* Tarjeta de crédito */
+/* Tarjeta de crédito EXACTO como Figma */
 .credit-card-section {
     text-align: center;
+    margin-bottom: 2rem;
 }
 
 .tariff-badge {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .current-tariff {
     display: block;
     font-size: 14px;
     color: #6b7280;
+    margin-bottom: 8px;
 }
 
 .tariff-name {
@@ -350,34 +354,25 @@ body {
     background-color: #14b8a6;
     color: white;
     padding: 6px 16px;
-    border-radius: 20px;
+    border-radius: 16px;
     font-size: 14px;
     font-weight: 500;
-    margin-top: 5px;
 }
 
 .credit-card {
     position: relative;
-    width: 250px;
-    height: 150px;
-    margin: 0 auto 15px auto;
+    width: 300px;
+    height: 190px;
+    margin: 0 auto 16px auto;
     border-radius: 16px;
+    background: linear-gradient(135deg, #1e7b85 0%, #14b8a6 30%, #5eead4 100%);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
     overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.card-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #5eead4 100%);
 }
 
 .card-content {
     position: relative;
-    padding: 20px;
+    padding: 28px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -386,21 +381,25 @@ body {
 }
 
 .visa-logo {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: bold;
     text-align: right;
+    font-family: Arial, sans-serif;
+    letter-spacing: 2px;
 }
 
 .card-number {
-    font-size: 16px;
-    letter-spacing: 2px;
+    font-size: 20px;
+    letter-spacing: 4px;
     text-align: center;
+    font-family: 'Courier New', monospace;
+    margin: 8px 0;
 }
 
 .card-bottom {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .card-info {
@@ -416,11 +415,15 @@ body {
     color: #14b8a6;
 }
 
-/* Promociones */
+/* Promociones EXACTO como Figma - 4 en línea horizontal */
+.promo-section {
+    margin-bottom: 2.5rem;
+}
+
 .promo-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
 .promo-item {
@@ -432,54 +435,77 @@ body {
 }
 
 .promo-circle {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background-color: #fbbf24;
+    background-color: #e5e7eb;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     transition: all 0.2s;
+    position: relative;
 }
 
-.promo-circle.gray {
-    background-color: #e5e7eb;
+.promo-circle.active {
+    background-color: #fbbf24;
 }
 
-.promo-circle:hover {
-    transform: scale(1.05);
+.promo-circle.active::after {
+    content: '✓';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #14b8a6;
+    color: white;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .promo-percent {
-    font-size: 16px;
+    font-size: 22px;
     font-weight: bold;
+    color: #6b7280;
+}
+
+.promo-circle.active .promo-percent {
     color: white;
 }
 
-.promo-circle.gray .promo-percent {
-    color: #6b7280;
-}
-
 .promo-text {
-    font-size: 12px;
+    font-size: 13px;
     color: #6b7280;
     line-height: 1.3;
+    max-width: 85px;
+    font-weight: 400;
 }
 
-/* Sección de ahorros */
+/* Sección de ahorros EXACTO como Figma */
+.savings-section {
+    margin-bottom: 2.5rem;
+}
+
 .savings-amounts {
-    background-color: white;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 28px 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .saving-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .saving-row:last-child {
@@ -487,20 +513,21 @@ body {
 }
 
 .saving-period {
-    font-size: 14px;
+    font-size: 15px;
     color: #6b7280;
+    font-weight: 400;
 }
 
 .saving-amount {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 700;
     color: #1a1a1a;
 }
 
-/* Botón de pedido */
+/* Botón de pedido EXACTO como Figma */
 .order-btn {
     width: 100%;
-    padding: 16px 24px;
+    padding: 18px 24px;
     background-color: #fbbf24;
     color: #1a1a1a;
     border: none;
@@ -509,72 +536,95 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.25);
 }
 
 .order-btn:hover {
     background-color: #f59e0b;
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(251, 191, 36, 0.4);
+    box-shadow: 0 6px 16px rgba(251, 191, 36, 0.35);
 }
 
-/* Modal */
+/* Modal EXACTO como Figma */
 .modal-content {
-    border-radius: 20px;
+    border-radius: 24px;
     border: none;
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    background-color: #14b8a6;
+    overflow: hidden;
 }
 
 .modal-header {
-    background-color: #14b8a6;
+    background-color: transparent;
     color: white;
-    border-radius: 20px 20px 0 0;
     border-bottom: none;
-    padding: 24px 30px;
+    padding: 40px 40px 20px 40px;
+    text-align: center;
+    position: relative;
 }
 
 .modal-title {
-    font-size: 18px;
+    font-size: 28px;
     font-weight: 600;
+    margin: 0 auto;
+    line-height: 1.2;
 }
 
 .modal-header .btn-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
     filter: invert(1);
-    opacity: 0.8;
+    opacity: 0.9;
+    padding: 8px;
+    font-size: 18px;
+    background: none;
+    border: none;
 }
 
 .modal-body {
-    padding: 30px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 0;
 }
 
 .modal-body .form-control {
-    border: 2px solid #e5e7eb;
+    border: none;
     border-radius: 12px;
-    padding: 16px 20px;
-    font-size: 15px;
+    padding: 18px 20px;
+    font-size: 16px;
+    background-color: #f3f4f6;
     transition: all 0.2s;
+    margin-bottom: 20px;
+    color: #374151;
 }
 
 .modal-body .form-control:focus {
-    border-color: #14b8a6;
+    background-color: white;
+    border: 2px solid #14b8a6;
     box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
     outline: none;
 }
 
 .modal-body .form-control::placeholder {
     color: #9ca3af;
+    font-weight: 400;
 }
 
 .form-check {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
+    margin-bottom: 32px;
 }
 
 .form-check-input {
-    margin-top: 0;
-    border-radius: 4px;
+    margin-top: 2px;
+    border-radius: 6px;
     border: 2px solid #d1d5db;
+    width: 20px;
+    height: 20px;
+    background-color: white;
 }
 
 .form-check-input:checked {
@@ -582,15 +632,22 @@ body {
     border-color: #14b8a6;
 }
 
+.form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
 .form-check-label {
-    font-size: 14px;
+    font-size: 15px;
     color: #4b5563;
     line-height: 1.4;
+    font-weight: 400;
 }
 
 .modal-footer {
-    padding: 0 30px 30px 30px;
+    background-color: white;
+    padding: 0 40px 40px 40px;
     border-top: none;
+    border-radius: 0;
 }
 
 .btn-order {
@@ -598,15 +655,18 @@ body {
     color: #1a1a1a;
     border: none;
     border-radius: 12px;
-    padding: 16px 24px;
+    padding: 18px 24px;
     font-size: 16px;
     font-weight: 600;
     transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.25);
 }
 
 .btn-order:hover {
     background-color: #f59e0b;
     color: #1a1a1a;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(251, 191, 36, 0.35);
 }
 
 /* Mensajes */
@@ -617,6 +677,7 @@ body {
     padding: 12px 16px;
     border-radius: 8px;
     font-size: 14px;
+    font-weight: 500;
 }
 
 .error-message {
@@ -626,10 +687,29 @@ body {
     padding: 12px 16px;
     border-radius: 8px;
     font-size: 14px;
+    font-weight: 500;
 }
 
-/* Responsive */
+/* Responsive - mantener proporciones de Figma */
+@media (max-width: 1200px) {
+    .calculator-section {
+        padding: 60px 40px 60px 80px;
+    }
+
+    .results-section {
+        padding: 60px 80px 60px 40px;
+    }
+}
+
 @media (max-width: 991px) {
+    .calculator-section {
+        padding: 40px 60px;
+    }
+
+    .results-section {
+        padding: 40px 60px;
+    }
+
     .calculator-container,
     .results-container {
         max-width: 100%;
@@ -637,32 +717,272 @@ body {
 
     .brand-icons {
         grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
     }
 
     .service-icons {
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .promo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
     }
 
     .credit-card {
-        width: 200px;
-        height: 120px;
+        width: 260px;
+        height: 160px;
+    }
+
+    .card-content {
+        padding: 24px;
     }
 }
 
 @media (max-width: 768px) {
+    .calculator-section,
+    .results-section {
+        padding: 30px 40px;
+    }
+
+    .calculator-title {
+        font-size: 1.75rem;
+        margin-bottom: 2rem;
+    }
+
+    .pumping-label {
+        font-size: 24px;
+    }
+
+    .brand-icons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .service-icons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .fuel-tabs {
+        flex-direction: column;
+        border-bottom: none;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 4px;
+    }
+
+    .fuel-tab {
+        border-bottom: none;
+        border-radius: 6px;
+        margin-bottom: 0;
+    }
+
+    .fuel-tab.active {
+        background-color: #14b8a6;
+        color: white;
+    }
+
+    .credit-card {
+        width: 240px;
+        height: 150px;
+    }
+
+    .modal-dialog {
+        margin: 20px;
+    }
+
+    .modal-header {
+        padding: 30px 30px 15px 30px;
+    }
+
+    .modal-title {
+        font-size: 24px;
+    }
+
+    .modal-body {
+        padding: 30px;
+    }
+
+    .modal-footer {
+        padding: 0 30px 30px 30px;
+    }
+}
+
+/* Responsive para 360px mínimo */
+@media (max-width: 480px) {
+    .calculator-section,
+    .results-section {
+        padding: 20px 25px;
+    }
+
     .calculator-title {
         font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 2rem;
+    }
+
+    .custom-select-display {
+        padding: 14px 40px 14px 16px;
+        font-size: 14px;
     }
 
     .pumping-label {
         font-size: 20px;
     }
 
-    .brand-icons {
+    .brand-icons,
+    .service-icons {
         grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .brand-circle,
+    .service-circle {
+        width: 50px;
+        height: 50px;
+        font-size: 12px;
+    }
+
+    .service-circle i {
+        font-size: 16px;
+    }
+
+    .brand-name,
+    .service-name {
+        font-size: 11px;
+    }
+
+    .credit-card {
+        width: 200px;
+        height: 125px;
+    }
+
+    .card-content {
+        padding: 18px;
+    }
+
+    .visa-logo {
+        font-size: 16px;
+    }
+
+    .card-number {
+        font-size: 16px;
+    }
+
+    .card-bottom {
+        font-size: 11px;
+    }
+
+    .promo-circle {
+        width: 60px;
+        height: 60px;
+    }
+
+    .promo-percent {
+        font-size: 16px;
+    }
+
+    .savings-amounts {
+        padding: 18px;
+    }
+
+    .saving-period {
+        font-size: 12px;
+    }
+
+    .saving-amount {
+        font-size: 14px;
+    }
+
+    .order-btn {
+        padding: 16px 20px;
+        font-size: 14px;
     }
 
     .modal-dialog {
-        margin: 15px;
+        margin: 10px;
+    }
+
+    .modal-header {
+        padding: 25px 25px 15px 25px;
+    }
+
+    .modal-title {
+        font-size: 20px;
+    }
+
+    .modal-body {
+        padding: 25px;
+    }
+
+    .modal-body .form-control {
+        padding: 16px 18px;
+        font-size: 14px;
+    }
+
+    .form-check-label {
+        font-size: 13px;
+    }
+
+    .modal-footer {
+        padding: 0 25px 25px 25px;
+    }
+
+    .btn-order {
+        padding: 16px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Muy pequeño - 360px exacto */
+@media (max-width: 360px) {
+    .calculator-section,
+    .results-section {
+        padding: 15px 20px;
+    }
+
+    .calculator-title {
+        font-size: 1.25rem;
+    }
+
+    .brand-icons,
+    .service-icons {
+        gap: 10px;
+    }
+
+    .brand-circle,
+    .service-circle {
+        width: 45px;
+        height: 45px;
+    }
+
+    .credit-card {
+        width: 180px;
+        height: 115px;
+    }
+
+    .promo-circle {
+        width: 55px;
+        height: 55px;
+    }
+
+    .savings-amounts {
+        padding: 15px;
+    }
+
+    .modal-dialog {
+        margin: 5px;
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
