@@ -1,37 +1,228 @@
-# Logs
-*.log
-logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Калькулятор тарифов - .gitignore
 
-# PHP
-*.php~
-.htaccess
+# =====================================
+# LOGS Y DATOS SENSIBLES
+# =====================================
 
-# Temporary files
+# Logs de pedidos (contienen datos de clientes)
+/php/orders.log
+orders.log
+orders_backup_*.log
+
+# Logs de errores PHP
+error.log
+error_log
+php_errors.log
+
+# Logs de Apache/Nginx
+access.log
+error.log
+
+# =====================================
+# ARCHIVOS DE CONFIGURACIÓN
+# =====================================
+
+# Configuración local de PHP
+php.ini
+.htaccess.local
+config.local.php
+
+# Variables de entorno
+.env
+.env.local
+.env.production
+
+# Configuración de email personalizada
+email_config.php
+
+# =====================================
+# ARCHIVOS TEMPORALES
+# =====================================
+
+# Archivos temporales del sistema
 *.tmp
 *.temp
-*~
-
-# IDE
-.vscode/
-.idea/
+*.cache
 *.swp
 *.swo
 *~
 
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
+# Archivos de backup automático
+*.bak
+*.backup
+*.orig
+
+# Thumbnails y archivos de imagen temporales
 Thumbs.db
+.DS_Store
 
-# Cache
-*.cache
+# =====================================
+# DEPENDENCIAS Y LIBRERÍAS
+# =====================================
 
-# Email logs (opcional - quitar si quieres trackear los pedidos)
-php/orders.log
+# Node modules (si usas herramientas de build)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Composer (si usas dependencias PHP)
+/vendor/
+composer.lock
+
+# =====================================
+# ARCHIVOS DE DESARROLLO
+# =====================================
+
+# Archivos de IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# PHPStorm
+.phpstorm.meta.php
+
+# Visual Studio Code
+.vscode/settings.json
+.vscode/launch.json
+
+# =====================================
+# ARCHIVOS DE SISTEMA
+# =====================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Linux
+*~
+.fuse_hidden*
+.Trash-*
+
+# =====================================
+# ARCHIVOS DE SERVIDOR
+# =====================================
+
+# Configuración de servidor web
+.htaccess.backup
+.htpasswd
+httpd.conf
+nginx.conf
+
+# Certificados SSL
+*.pem
+*.key
+*.crt
+*.csr
+
+# =====================================
+# ARCHIVOS DE TESTING
+# =====================================
+
+# Test outputs
+/tests/output/
+coverage/
+*.coverage
+
+# PHPUnit
+.phpunit.result.cache
+phpunit.xml
+
+# =====================================
+# ARCHIVOS DE DEPLOYMENT
+# =====================================
+
+# Archivos de build
+/build/
+/dist/
+/public/build/
+
+# Archivos de deployment
+deploy.sh
+deploy.php
+.deployment
+
+# FTP/SFTP configs
+.ftppass
+sftp-config.json
+
+# =====================================
+# DOCUMENTACIÓN SENSIBLE
+# =====================================
+
+# Documentos con información sensible
+PASSWORDS.txt
+CREDENTIALS.md
+API_KEYS.txt
+
+# Notas de desarrollo privadas
+TODO_PRIVATE.md
+NOTES_PRIVATE.txt
+
+# =====================================
+# ARCHIVOS ESPECÍFICOS DEL PROYECTO
+# =====================================
+
+# Versiones de desarrollo del calculador
+index_dev.html
+script_dev.js
+style_dev.css
+
+# Archivos de testing del formulario
+test_email.php
+debug_calculate.php
+
+# Exports de base de datos
+*.sql
+*.db
+*.sqlite
+
+# Archivos de análisis
+analytics/
+stats/
+
+# =====================================
+# OPTIMIZACIÓN Y MINIFICACIÓN
+# =====================================
+
+# Archivos minificados (si se generan automáticamente)
+*.min.css
+*.min.js
+
+# Source maps
+*.map
+
+# =====================================
+# COMENTARIOS ÚTILES
+# =====================================
+
+# Para incluir un archivo específico que normalmente sería ignorado:
+# !important-file.log
+
+# Para ignorar todo un directorio excepto un archivo:
+# logs/
+# !logs/.gitkeep
+
+# Para ignorar archivos por extensión en subdirectorios:
+# **/*.log
+
+# =====================================
+# EJEMPLO DE ESTRUCTURA SEGURA
+# =====================================
+
+# Si necesitas mantener la estructura de directorios vacíos:
+# !.gitkeep
+
+# Mantener directorio php/ pero ignorar logs
+# !php/
+# php/*.log
