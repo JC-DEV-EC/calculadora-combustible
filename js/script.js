@@ -67,6 +67,8 @@ $(document).ready(function() {
 
         updateBrands();
         updateSliderDisplay();
+        // Initialize marks for default region (Ленинградская область = 1200)
+        updatePumpingMarks(1200);
         calculateAllAjax(); // Usar AJAX desde el inicio
         bindEvents();
     }
@@ -191,6 +193,18 @@ $(document).ready(function() {
         });
     }
 
+    // FIXED: Dynamic pumping marks update
+    function updatePumpingMarks(maxValue) {
+        const marks = $('.pumping-marks');
+        const middleValue = Math.round(maxValue / 2);
+
+        marks.html(`
+            <span class="pumping-mark">0 тонн</span>
+            <span class="pumping-mark">${middleValue} тонн</span>
+            <span class="pumping-mark">${maxValue} тонн</span>
+        `);
+    }
+
     function updateSliderMax(maxValue) {
         $('#pumpingRange').attr('max', maxValue);
         if (currentState.pumping > maxValue) {
@@ -198,6 +212,9 @@ $(document).ready(function() {
             $('#pumpingRange').val(maxValue);
             updateSliderDisplay();
         }
+
+        // UPDATE THE MARKS WHEN MAX CHANGES
+        updatePumpingMarks(maxValue);
     }
 
     function updateSliderDisplay() {

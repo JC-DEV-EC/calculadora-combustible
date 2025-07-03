@@ -7,88 +7,120 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f8f9fa;  /* FONDO GENERAL GRIS IGUAL AL FIGMA */
     color: #333;
     line-height: 1.5;
 }
 
-/* Layout principal */
+/* Layout principal - SIN SCROLL HORIZONTAL O VERTICAL */
 .main-container {
     max-width: 1600px;
     margin: 0 auto;
     background-color: transparent;
+    overflow-x: hidden;  /* ELIMINAR SCROLL HORIZONTAL */
 }
 
+/* Forzar que las columnas estén lado a lado - SIN SCROLL */
 .main-container .row {
     margin: 0;
     min-height: 100vh;
+    display: flex;  /* FORZAR FLEXBOX */
+    flex-wrap: nowrap;  /* NO PERMITIR QUE SE ROMPAN LAS COLUMNAS */
+    overflow: hidden;  /* ELIMINAR CUALQUIER SCROLL */
 }
 
-/* Columna izquierda - calculadora */
+.main-container .row .col-lg-7 {
+    flex: 0 0 58.333333%;  /* VOLVER A PROPORCIONES ORIGINALES */
+    max-width: 58.333333%;
+    overflow: hidden;
+}
+
+.main-container .row .col-lg-5 {
+    flex: 0 0 41.666667%;  /* VOLVER A PROPORCIONES ORIGINALES */
+    max-width: 41.666667%;
+    overflow: hidden;
+}
+
 .calculator-section {
-    background-color: transparent;
-    padding: 60px 80px;
-    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 20px 50px;
+    min-height: 80vh;  /* AUMENTAR ALTURA PARA VER TODA LA SECCIÓN DE SERVICIOS */
+    max-height: none;  /* QUITAR LÍMITE DE ALTURA */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.calculator-content {
-    max-width: 500px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-/* Columna derecha - resultados */
 .results-section {
-    background-color: #ffffff;
+    background-color: #ffffff;  /* FONDO BLANCO COMO EN FIGMA */
     padding: 60px 50px;
     margin: 40px 30px 40px 0;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    height: auto;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: sticky;
+    top: 40px;
+    overflow: hidden;  /* ELIMINAR CUALQUIER SCROLL */
+}
+
+.calculator-content {
+    max-width: 750px;  /* INCREASED from 500px to 650px */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow: visible;  /* ELIMINAR SCROLL */
+    padding-right: 0;  /* ELIMINAR PADDING QUE CAUSA SCROLL */
 }
 
 .results-content {
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    overflow: visible;  /* ELIMINAR SCROLL */
 }
 
-/* Título principal */
+/* Título principal - TAMAÑO EXACTO DEL FIGMA */
 .calculator-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: #1a1a1a;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.8rem;
     line-height: 1.2;
+    flex-shrink: 0;
 }
 
-/* Secciones del formulario */
+/* Secciones del formulario - ESPACIADO EXACTO DEL FIGMA */
 .form-section {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.8rem;
+    flex-shrink: 0;
 }
 
 .form-label {
     font-size: 16px;
     color: #374151;
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;  /* REDUCIR MARGEN INFERIOR DE 1rem A 0.6rem */
     display: block;
     font-weight: 500;
 }
 
-/* Custom Select */
+/* Custom Select - EXACTO AL FIGMA */
 .custom-select-container {
     position: relative;
     background-color: #ffffff;
-    padding: 24px;
-    border-radius: 16px;
+    padding: 20px;
+    border-radius: 4px;
     border: 1px solid #e5e7eb;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    width: 100%;  /* FULL WIDTH */
+    max-width: 650px;  /* INCREASED from default */
 }
 
 .custom-select-container .form-label {
@@ -138,7 +170,7 @@ body {
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     z-index: 1000;
     display: none;
-    margin-top: 8px;
+    margin-top: 5px;
 }
 
 .custom-select-dropdown.show {
@@ -162,42 +194,42 @@ body {
     color: white;
 }
 
-/* Slider de prокачка */
+/* Slider de прокачка - CON SLIDER EN EL BORDE INFERIOR */
 .pumping-container {
     position: relative;
     background-color: #ffffff;
-    padding: 24px;
-    border-radius: 16px;
+    padding: 12px 32px 20px 32px;  /* MÁS PADDING INFERIOR PARA EL SLIDER */
+    border-radius: 4px;
     border: 1px solid #e5e7eb;
+    border-bottom: none;  /* QUITAR BORDE INFERIOR PARA QUE EL SLIDER SEA EL BORDE */
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-
-.pumping-container .form-label {
-    font-size: 14px;
-    color: #9ca3af;
-    margin-bottom: 12px;
-    font-weight: 400;
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 0;
 }
 
 .pumping-display {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .pumping-value {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: #374151;
 }
 
 .pumping-slider {
-    width: 100%;
-    height: 8px;
-    border-radius: 4px;
+    width: calc(100% + 2px);  /* EXTENDER PARA CUBRIR LOS BORDES */
+    height: 4px;
+    border-radius: 0;  /* SIN BORDER RADIUS PARA QUE SEA UNA LÍNEA RECTA */
     background: linear-gradient(to right, #fbbf24 0%, #fbbf24 17%, #e5e7eb 17%, #e5e7eb 100%);
     outline: none;
     appearance: none;
     cursor: pointer;
-    margin-bottom: 1.2rem;
+    margin: 0;
+    position: absolute;
+    bottom: -4px;  /* POSICIONAR EN EL BORDE INFERIOR */
+    left: -1px;    /* ALINEAR CON EL BORDE IZQUIERDO */
 }
 
 .pumping-slider::-webkit-slider-thumb {
@@ -209,6 +241,8 @@ body {
     cursor: pointer;
     border: 4px solid white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    position: relative;
+    top: 0;  /* CENTRAR EN LA LÍNEA DEL SLIDER */
 }
 
 .pumping-slider::-moz-range-thumb {
@@ -220,22 +254,29 @@ body {
     border: 4px solid white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     border: none;
+    position: relative;
+    top: 0;  /* CENTRAR EN LA LÍNEA DEL SLIDER */
 }
 
 .pumping-marks {
     display: flex;
     justify-content: space-between;
-    padding: 0 12px;
+    padding: 0 32px;  /* MISMO PADDING HORIZONTAL QUE EL CONTAINER */
     font-size: 13px;
     color: #9ca3af;
+    margin-top: 12px;  /* MÁS ESPACIO PARA EL THUMB DEL SLIDER */
+    width: 100%;
+    max-width: 650px;
 }
 
-/* Fuel tabs */
+/* Fuel tabs - EXACTO AL FIGMA */
 .fuel-switcher {
     display: flex;
     border-bottom: 3px solid #e5e7eb;
     position: relative;
     margin-bottom: 2rem;
+    width: 100%;
+    max-width: 650px;  /* INCREASED from default */
 }
 
 .fuel-btn {
@@ -257,13 +298,13 @@ body {
     border-bottom-color: #14b8a6;
 }
 
-/* Grid de marcas */
+/* Grid de marcas - EXACTO AL FIGMA CON 6 COLUMNAS */
 .brands-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1rem;
-    margin-top: 1.5rem;
-    max-width: 480px;
+    grid-template-columns: repeat(6, 1fr);  /* 6 COLUMNAS COMO EN EL FIGMA */
+    gap: 0.8rem;  /* GAP MÁS PEQUEÑO COMO EN FIGMA */
+    margin-top: 0.5rem;
+    max-width: 600px;  /* INCREASED from 480px to 600px */
 }
 
 .brand-option {
@@ -273,10 +314,11 @@ body {
     cursor: pointer;
     transition: transform 0.2s;
     opacity: 1;
+    padding: 8px;  /* PADDING PEQUEÑO */
 }
 
 .brand-option:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);  /* HOVER MÁS SUTIL */
 }
 
 .brand-option.disabled {
@@ -285,28 +327,28 @@ body {
 }
 
 .brand-icon {
-    width: 68px;
+    width: 68px;  /* AUMENTAR TAMAÑO DE 60px A 68px */
     height: 68px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 18px;  /* AUMENTAR TAMAÑO DE LETRA PROPORCIONALMENTE */
     transition: all 0.3s;
     background-color: #f3f4f6;
     color: #9ca3af;
     position: relative;
 }
 
-/* Shell - siempre amarillo */
+/* Shell - AMARILLO EXACTO COMO EN FIGMA */
 .brand-option[data-brand="shell"] .brand-icon {
     background-color: #fbbf24;
     color: white;
 }
 
-/* Estados activos de las marcas */
+/* Estados activos de las marcas - COLORES EXACTOS DEL FIGMA */
 .brand-option[data-brand="gazprom"].active .brand-icon {
     background-color: #0066cc;
     color: white;
@@ -333,25 +375,25 @@ body {
 }
 
 .brand-letter {
-    font-size: 20px;
+    font-size: 18px;  /* LETRA MÁS PEQUEÑA */
     font-weight: 800;
 }
 
 .brand-label {
-    font-size: 12px;
+    font-size: 11px;  /* TEXTO MÁS PEQUEÑO COMO EN FIGMA */
     color: #6b7280;
     text-align: center;
     font-weight: 500;
     line-height: 1.2;
 }
 
-/* Grid de servicios */
+/* Grid de servicios - TAMAÑO EXACTO DEL FIGMA */
 .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-top: 1.5rem;
-    max-width: 360px;
+    gap: 0.8rem;  /* GAP MÁS PEQUEÑO COMO EN FIGMA */
+    margin-top: 0.5rem;
+    max-width: 480px;  /* INCREASED from 360px to 480px */
 }
 
 .service-option {
@@ -360,23 +402,25 @@ body {
     align-items: center;
     cursor: pointer;
     transition: transform 0.2s;
+    padding: 8px;  /* PADDING PEQUEÑO COMO LAS MARCAS */
 }
 
 .service-option:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);  /* HOVER MÁS SUTIL */
 }
 
 .service-icon {
-    width: 64px;
-    height: 64px;
+    width: 80.25px;  /* MISMO TAMAÑO QUE LAS MARCAS */
+    height: 80.25px;
     border-radius: 50%;
     background-color: #f3f4f6;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;  /* MISMO MARGEN QUE LAS MARCAS */
     color: #9ca3af;
     transition: all 0.3s;
+    font-size: 30px;  /* TAMAÑO DE ICONO VISIBLE */
 }
 
 .service-option.active .service-icon {
@@ -384,7 +428,7 @@ body {
     color: white;
 }
 
-/* Servicios específicos con colores diferentes */
+/* Servicios específicos con colores diferentes COMO EN FIGMA */
 .service-option.active[data-service="pasluga"] .service-icon {
     background-color: #3b82f6;
 }
@@ -398,15 +442,15 @@ body {
 }
 
 .service-label {
-    font-size: 11px;
+    font-size: 11px;  /* MISMO TAMAÑO QUE LAS MARCAS */
     color: #6b7280;
     text-align: center;
     font-weight: 500;
     line-height: 1.2;
-    max-width: 64px;
+    max-width: 60px;  /* MISMO ANCHO QUE LOS ICONOS */
 }
 
-/* Sección de resultados - columna derecha */
+/* Sección de resultados - TEXTO NEGRO SOBRE FONDO BLANCO */
 .card-section {
     background-color: transparent;
     padding: 0;
@@ -418,46 +462,58 @@ body {
 .section-title {
     font-size: 16px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #1a1a1a;  /* TEXTO NEGRO PARA FONDO BLANCO */
     margin-bottom: 1.5rem;
     display: block;
     text-align: center;
 }
 
-/* Información del tarif */
+/* Información del tariff - AJUSTADO PARA FONDO BLANCO */
 .tariff-info {
     margin-bottom: 1.2rem;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
 }
 
 .tariff-subtitle {
-    display: block;
     font-size: 14px;
     color: #6b7280;
-    margin-bottom: 6px;
+    font-weight: 400;
+    margin: 0;
+    flex-shrink: 0;
 }
 
 .tariff-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     background-color: #14b8a6;
     color: white;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.25);
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.tariff-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(20, 184, 166, 0.35);
 }
 
 .tariff-badge i {
-    font-size: 12px;
+    font-size: 14px;
 }
 
-/* Tarjeta de crédito */
+/* Tarjeta de crédito - MANTENER EL GRADIENTE */
 .credit-card {
     position: relative;
-    width: 280px;
-    height: 175px;
+    width: 500px;  /* INCREASED from 280px to 320px */
+    height: 310px;  /* INCREASED from 175px to 200px */
     margin: 0 auto 1.2rem auto;
     border-radius: 20px;
     overflow: hidden;
@@ -475,7 +531,7 @@ body {
 
 .card-content {
     position: relative;
-    padding: 24px;
+    padding: 28px;  /* INCREASED from 24px to 28px */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -485,7 +541,7 @@ body {
 }
 
 .card-logo {
-    font-size: 22px;
+    font-size: 24px;  /* INCREASED from 22px to 24px */
     font-weight: bold;
     text-align: right;
     font-family: Arial, sans-serif;
@@ -493,17 +549,17 @@ body {
 }
 
 .card-number {
-    font-size: 18px;
+    font-size: 20px;  /* INCREASED from 18px to 20px */
     letter-spacing: 4px;
     text-align: center;
     font-family: 'Courier New', monospace;
-    margin: 8px 0;
+    margin: 10px 0;  /* INCREASED from 8px to 10px */
 }
 
 .card-info {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 15px;  /* INCREASED from 14px to 15px */
 }
 
 .card-note {
@@ -511,20 +567,27 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    color: #6b7280;
+    color: #6b7280;  /* TEXTO GRIS PARA FONDO BLANCO */
     font-size: 14px;
+    text-decoration: none;  /* QUITAR SUBRAYADO */
 }
 
 .card-note i {
-    color: #14b8a6;
+    color: #14b8a6;  /* ICONO VERDE */
+    font-size: 16px;  /* HACER EL ICONO MÁS VISIBLE */
 }
 
-/* Sección de promociones */
+/* Sección de promociones - EXACTO COMO EN LA REFERENCIA */
 .promo-section {
     margin-bottom: 2.5rem;
     padding: 2rem 0;
     border-top: 1px solid #e5e7eb;
     border-bottom: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    margin-left: -50px;  /* Extend to left edge */
+    margin-right: -50px; /* Extend to right edge */
+    padding-left: 50px;  /* Restore inner padding */
+    padding-right: 50px; /* Restore inner padding */
 }
 
 .promo-options {
@@ -532,7 +595,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 1.2rem;
     justify-items: center;
-    max-width: 350px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -542,27 +605,37 @@ body {
     align-items: center;
     text-align: center;
     cursor: pointer;
+    padding: 8px;
+    transition: transform 0.2s;
+}
+
+.promo-option:hover {
+    transform: translateY(-2px);
 }
 
 .promo-circle {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background-color: #f3f4f6;
+    background-color: #e5e7eb;
+    border: 3px solid #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 8px;
     transition: all 0.3s;
     position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .promo-option.active .promo-circle {
     background-color: #fbbf24;
+    border-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
 }
 
 .promo-percent {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: #6b7280;
 }
@@ -585,7 +658,7 @@ body {
     justify-content: center;
     font-size: 12px;
     border: 3px solid white;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.4);
 }
 
 .promo-option.active .promo-check {
@@ -593,33 +666,27 @@ body {
 }
 
 .promo-text {
-    font-size: 10px;
+    font-size: 12px;
     color: #6b7280;
-    line-height: 1.2;
-    max-width: 70px;
+    line-height: 1.3;
+    max-width: 80px;
     text-align: center;
     font-weight: 500;
 }
 
-/* Sección de ahorros */
+/* Sección de ahorros - AJUSTADA PARA FONDO BLANCO CON 3 COLUMNAS */
 .savings-section {
     margin-bottom: 2.5rem;
-}
-
-.savings-section .section-title {
-    text-align: left;
-    font-size: 18px;
-    margin-bottom: 1.2rem;
-    color: #1a1a1a;
 }
 
 .savings-display {
     background-color: transparent;
     border: none;
     padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;  /* 3 COLUMNAS IGUALES */
+    gap: 1rem;
+    align-items: center;
 }
 
 .saving-item {
@@ -630,9 +697,24 @@ body {
     flex: 1;
 }
 
+.saving-item:first-child {
+    /* Estilo especial para "Ваша экономия:" */
+    align-items: center;
+    justify-content: center;
+}
+
+.saving-item:first-child .saving-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.2;
+    text-align: center;
+    order: 1;
+}
+
 .saving-label {
     font-size: 13px;
-    color: #6b7280;
+    color: #6b7280;  /* TEXTO GRIS PARA FONDO BLANCO */
     margin-bottom: 6px;
     order: 2;
 }
@@ -640,15 +722,15 @@ body {
 .saving-value {
     font-size: 18px;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #1a1a1a;  /* TEXTO NEGRO PARA FONDO BLANCO */
     order: 1;
 }
 
-/* Botón de orden */
+/* Botón de orden - AMARILLO EXACTO DEL FIGMA */
 .order-button {
     width: 100%;
     padding: 18px 24px;
-    background-color: #fbbf24;
+    background-color: #fbbf24;  /* AMARILLO EXACTO DEL FIGMA */
     color: #1a1a1a;
     border: none;
     border-radius: 16px;
@@ -666,7 +748,7 @@ body {
     box-shadow: 0 8px 25px rgba(251, 191, 36, 0.35);
 }
 
-/* Modal */
+/* Modal - MANTENIENDO TU ESTILO ORIGINAL */
 .modal-content {
     border-radius: 16px;
     border: none;
@@ -865,22 +947,14 @@ body {
     box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25) !important;
 }
 
-/* Responsive */
+/* Responsive - ASEGURAR QUE LAS COLUMNAS SOLO SE APILEN EN MOBILE */
 @media (max-width: 1200px) {
-    .calculator-section {
-        padding: 40px 50px;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
+    .main-container .row {
+        flex-wrap: nowrap;  /* MANTENER LADO A LADO */
     }
 
-    .calculator-content {
-        max-width: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.8rem;
+    .calculator-section {
+        padding: 40px 50px;
     }
 
     .results-section {
@@ -888,59 +962,87 @@ body {
         margin: 30px 20px 30px 0;
     }
 
+    .promo-section {
+        margin-left: -35px;  /* Adjust for smaller padding */
+        margin-right: -35px;
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
     .calculator-title {
         font-size: 2.2rem;
         margin-bottom: 2rem;
-        text-align: center;
+        text-align: left;  /* MANTENER ALINEADO A LA IZQUIERDA */
     }
 
     .brands-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(6, 1fr);  /* MANTENER 6 COLUMNAS COMO EN FIGMA */
         gap: 1.2rem;
-        justify-self: center;
-        max-width: 100%;
+        max-width: 600px;  /* MAINTAIN WIDER WIDTH */
     }
 
     .services-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 1rem;
-        justify-self: center;
-        max-width: 100%;
+        max-width: 480px;  /* MAINTAIN WIDER WIDTH */
     }
 
     .form-section {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;  /* ALINEAR A LA IZQUIERDA */
         width: 100%;
     }
 
     .custom-select-container,
     .pumping-container {
         width: 100%;
-        max-width: 500px;
+        max-width: 650px;  /* MAINTAIN WIDER WIDTH */
     }
 
     .fuel-switcher {
         width: 100%;
-        max-width: 500px;
+        max-width: 650px;  /* MAINTAIN WIDER WIDTH */
     }
 }
 
-@media (max-width: 768px) {
+/* Responsive - SOLO EN MOBILE CAMBIAR A COLUMNA */
+@media (max-width: 991px) {
+    /* SOLO aquí permitir que se apilen */
+    .main-container .row {
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+    }
+
+    .main-container .row .col-lg-7,
+    .main-container .row .col-lg-5 {
+        flex: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
     .calculator-section,
     .results-section {
         padding: 30px 25px;
     }
 
+    .promo-section {
+        margin-left: -25px;  /* Extend to edges on mobile */
+        margin-right: -25px;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
     .results-section {
         margin: 20px 15px 20px 0;
         border-radius: 16px;
+        position: static;
     }
 
     .calculator-title {
         font-size: 2rem;
         margin-bottom: 1.8rem;
+        text-align: center;  /* CENTRAR EN MOBILE */
     }
 
     .brands-grid {
@@ -959,23 +1061,51 @@ body {
         height: 58px;
     }
 
+    .promo-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        max-width: 300px;
+    }
+
     .promo-circle {
-        width: 65px;
-        height: 65px;
+        width: 70px;
+        height: 70px;
+    }
+
+    .promo-percent {
+        font-size: 16px;
+    }
+
+    .promo-text {
+        font-size: 11px;
+        max-width: 70px;
     }
 
     .credit-card {
-        width: 260px;
-        height: 160px;
+        width: 300px;  /* INCREASED proportionally */
+        height: 185px;  /* INCREASED proportionally */
+    }
+
+    /* AHORROS EN MOBILE - MANTENER 3 COLUMNAS PERO MÁS COMPACTO */
+    .savings-display {
+        gap: 0.5rem;
+    }
+
+    .saving-item:first-child .saving-value {
+        font-size: 16px;
+    }
+
+    .saving-value {
+        font-size: 16px;
+    }
+
+    .saving-label {
+        font-size: 12px;
     }
 
     .form-section {
         margin-bottom: 2rem;
-    }
-
-    .promo-options {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        align-items: center;  /* CENTRAR EN MOBILE */
     }
 
     .modal-dialog {
@@ -1017,6 +1147,13 @@ body {
         padding: 25px 20px;
     }
 
+    .promo-section {
+        margin-left: -20px;  /* Extend to edges on small mobile */
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
     .results-section {
         margin: 15px 10px 15px 0;
         border-radius: 12px;
@@ -1038,29 +1175,62 @@ body {
 
     .brand-icon,
     .service-icon {
-        width: 52px;
-        height: 52px;
+        width: 50px;  /* MANTENER PROPORCIONES EN MOBILE */
+        height: 50px;
+    }
+
+    .promo-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+        max-width: 250px;
     }
 
     .promo-circle {
-        width: 55px;
-        height: 55px;
+        width: 60px;
+        height: 60px;
+    }
+
+    .promo-percent {
+        font-size: 14px;
+    }
+
+    .promo-text {
+        font-size: 10px;
+        max-width: 60px;
+    }
+
+    .brand-letter {
+        font-size: 14px;  /* AJUSTAR TAMAÑO DE LETRA */
     }
 
     .credit-card {
-        width: 240px;
-        height: 150px;
+        width: 280px;  /* INCREASED proportionally */
+        height: 175px;  /* INCREASED proportionally */
+    }
+
+    /* AHORROS EN SMALL MOBILE - APILAR EN 1 COLUMNA */
+    .savings-display {
+        grid-template-columns: 1fr;  /* 1 COLUMNA EN MOBILE PEQUEÑO */
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .saving-item:first-child .saving-value {
+        font-size: 14px;
+    }
+
+    .saving-value {
+        font-size: 14px;
+    }
+
+    .saving-label {
+        font-size: 11px;
     }
 
     .custom-select-container,
     .pumping-container {
         padding: 20px;
         margin-bottom: 0.8rem;
-    }
-
-    .promo-options {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.8rem;
     }
 
     .modal-dialog {
@@ -1106,6 +1276,13 @@ body {
         padding: 20px 15px;
     }
 
+    .promo-section {
+        margin-left: -15px;  /* Extend to edges on tiny screens */
+        margin-right: -15px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
     .results-section {
         margin: 10px 5px 10px 0;
     }
@@ -1135,14 +1312,9 @@ body {
         height: 48px;
     }
 
-    .promo-circle {
-        width: 50px;
-        height: 50px;
-    }
-
     .credit-card {
-        width: 220px;
-        height: 140px;
+        width: 260px;  /* INCREASED proportionally */
+        height: 165px;  /* INCREASED proportionally */
     }
 
     .brand-letter {
@@ -1154,23 +1326,9 @@ body {
         font-size: 10px;
     }
 
-    .promo-percent {
-        font-size: 14px;
-    }
-
-    .promo-text {
-        font-size: 9px;
-        max-width: 50px;
-    }
-
     .custom-select-container,
     .pumping-container {
         padding: 16px;
         margin-bottom: 0.6rem;
-    }
-
-    .promo-options {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.6rem;
     }
 }
