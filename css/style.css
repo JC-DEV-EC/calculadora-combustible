@@ -6,50 +6,71 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
     color: #333;
     line-height: 1.5;
 }
 
-/* Layout principal - EXACTO como Figma */
-.container-fluid {
-    padding: 0;
-    max-width: none;
+/* Layout principal */
+.main-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background-color: transparent;
 }
 
-.calculator-section {
-    background-color: #ffffff;
-    padding: 80px 60px 80px 140px;
+.main-container .row {
+    margin: 0;
     min-height: 100vh;
 }
 
+/* Columna izquierda - calculadora */
+.calculator-section {
+    background-color: transparent;
+    padding: 60px 80px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.calculator-content {
+    max-width: 500px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Columna derecha - resultados */
 .results-section {
     background-color: #ffffff;
-    padding: 80px 140px 80px 60px;
-    min-height: 100vh;
+    padding: 60px 50px;
+    margin: 40px 30px 40px 0;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.calculator-container {
-    max-width: 520px;
+.results-content {
+    max-width: 100%;
 }
 
-.results-container {
-    max-width: 400px;
-}
-
-/* Título */
+/* Título principal */
 .calculator-title {
-    font-size: 2.25rem;
-    font-weight: 600;
+    font-size: 2.5rem;
+    font-weight: 700;
     color: #1a1a1a;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     line-height: 1.2;
 }
 
-/* Form groups */
-.form-group {
-    margin-bottom: 4rem;
+/* Secciones del formulario */
+.form-section {
+    margin-bottom: 2.5rem;
 }
 
 .form-label {
@@ -57,37 +78,43 @@ body {
     color: #374151;
     margin-bottom: 1rem;
     display: block;
-    font-weight: 400;
+    font-weight: 500;
 }
 
-/* Custom Select EXACTO como Figma */
+/* Custom Select */
 .custom-select-container {
     position: relative;
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.custom-select-container .form-label {
+    font-size: 14px;
+    color: #9ca3af;
+    margin-bottom: 12px;
+    font-weight: 400;
 }
 
 .custom-select-display {
     width: 100%;
-    padding: 16px 50px 16px 20px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
+    padding: 0;
+    border: none;
     font-size: 16px;
-    background-color: #ffffff;
+    font-weight: 600;
+    background-color: transparent;
     color: #374151;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.2s;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .custom-select-display:hover {
-    border-color: #14b8a6;
-}
-
-.custom-select-display.active {
-    border-color: #14b8a6;
-    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+    color: #14b8a6;
 }
 
 .custom-select-display i {
@@ -107,11 +134,11 @@ body {
     right: 0;
     background: white;
     border: 1px solid #14b8a6;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     z-index: 1000;
     display: none;
-    margin-top: 4px;
+    margin-top: 8px;
 }
 
 .custom-select-dropdown.show {
@@ -119,7 +146,7 @@ body {
 }
 
 .custom-select-option {
-    padding: 12px 20px;
+    padding: 16px 24px;
     cursor: pointer;
     transition: background-color 0.2s;
     font-size: 16px;
@@ -135,22 +162,31 @@ body {
     color: white;
 }
 
-/* Slider de прокачка EXACTO como Figma */
-.pumping-section {
-    text-align: left;
-}
-
-.pumping-label {
-    font-size: 32px;
-    font-weight: 600;
-    color: #1a1a1a;
-    margin-bottom: 24px;
-    display: block;
-}
-
-.pumping-slider-container {
+/* Slider de prокачка */
+.pumping-container {
     position: relative;
-    margin: 24px 0 16px 0;
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.pumping-container .form-label {
+    font-size: 14px;
+    color: #9ca3af;
+    margin-bottom: 12px;
+    font-weight: 400;
+}
+
+.pumping-display {
+    margin-bottom: 1.5rem;
+}
+
+.pumping-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #374151;
 }
 
 .pumping-slider {
@@ -161,132 +197,164 @@ body {
     outline: none;
     appearance: none;
     cursor: pointer;
+    margin-bottom: 1.2rem;
 }
 
 .pumping-slider::-webkit-slider-thumb {
     appearance: none;
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: #fbbf24;
     cursor: pointer;
     border: 4px solid white;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
 .pumping-slider::-moz-range-thumb {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: #fbbf24;
     cursor: pointer;
     border: 4px solid white;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     border: none;
 }
 
-.slider-marks {
+.pumping-marks {
     display: flex;
     justify-content: space-between;
-    margin-top: 12px;
-    padding: 0 13px;
-}
-
-.slider-marks .mark {
+    padding: 0 12px;
     font-size: 13px;
     color: #9ca3af;
-    font-weight: 400;
 }
 
-/* Tabs de combustible EXACTO como Figma */
-.fuel-tabs {
+/* Fuel tabs */
+.fuel-switcher {
     display: flex;
-    background-color: transparent;
     border-bottom: 3px solid #e5e7eb;
-    padding: 0;
-    gap: 0;
+    position: relative;
+    margin-bottom: 2rem;
 }
 
-.fuel-tab {
+.fuel-btn {
     flex: 1;
-    padding: 16px 32px;
+    padding: 16px 0;
     border: none;
     background: transparent;
-    border-bottom: 3px solid transparent;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     color: #6b7280;
     cursor: pointer;
     transition: all 0.2s;
-    position: relative;
+    border-bottom: 3px solid transparent;
     margin-bottom: -3px;
 }
 
-.fuel-tab.active {
+.fuel-btn.active {
     color: #14b8a6;
     border-bottom-color: #14b8a6;
 }
 
-.fuel-tab:hover:not(.active) {
-    color: #374151;
-}
-
-/* Iconos de marcas EXACTO como Figma */
-.brand-icons {
+/* Grid de marcas */
+.brands-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 24px;
-    margin-top: 20px;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    max-width: 480px;
 }
 
-.brand-item {
+.brand-option {
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
     transition: transform 0.2s;
+    opacity: 1;
 }
 
-.brand-item:hover {
-    transform: translateY(-2px);
+.brand-option:hover {
+    transform: translateY(-3px);
 }
 
-.brand-circle {
-    width: 60px;
-    height: 60px;
+.brand-option.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.brand-icon {
+    width: 68px;
+    height: 68px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 8px;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.2s;
-    background-color: #e5e7eb;
-    color: #6b7280;
+    font-weight: 700;
+    font-size: 18px;
+    transition: all 0.3s;
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    position: relative;
 }
 
-.brand-circle.yellow,
-.brand-item.active .brand-circle {
+/* Shell - siempre amarillo */
+.brand-option[data-brand="shell"] .brand-icon {
     background-color: #fbbf24;
     color: white;
 }
 
-.brand-name {
+/* Estados activos de las marcas */
+.brand-option[data-brand="gazprom"].active .brand-icon {
+    background-color: #0066cc;
+    color: white;
+}
+
+.brand-option[data-brand="rosneft"].active .brand-icon {
+    background-color: #dc2626;
+    color: white;
+}
+
+.brand-option[data-brand="tatneft"].active .brand-icon {
+    background-color: #059669;
+    color: white;
+}
+
+.brand-option[data-brand="lukoil"].active .brand-icon {
+    background-color: #dc2626;
+    color: white;
+}
+
+.brand-option[data-brand="bashneft"].active .brand-icon {
+    background-color: #7c3aed;
+    color: white;
+}
+
+.brand-letter {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.brand-label {
     font-size: 12px;
     color: #6b7280;
     text-align: center;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
-/* Iconos de servicios EXACTO como Figma */
-.service-icons {
+/* Grid de servicios */
+.services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px 20px;
-    margin-top: 20px;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    max-width: 360px;
 }
 
-.service-item {
+.service-option {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -294,94 +362,130 @@ body {
     transition: transform 0.2s;
 }
 
-.service-item:hover {
-    transform: translateY(-2px);
+.service-option:hover {
+    transform: translateY(-3px);
 }
 
-.service-circle {
-    width: 60px;
-    height: 60px;
+.service-icon {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background-color: #e5e7eb;
+    background-color: #f3f4f6;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 8px;
-    color: #6b7280;
-    font-size: 20px;
-    transition: all 0.2s;
+    color: #9ca3af;
+    transition: all 0.3s;
 }
 
-.service-item.active .service-circle {
+.service-option.active .service-icon {
     background-color: #14b8a6;
     color: white;
 }
 
-.service-name {
-    font-size: 12px;
+/* Servicios específicos con colores diferentes */
+.service-option.active[data-service="pasluga"] .service-icon {
+    background-color: #3b82f6;
+}
+
+.service-option.active[data-service="monitoring"] .service-icon {
+    background-color: #14b8a6;
+}
+
+.service-option.active[data-service="support"] .service-icon {
+    background-color: #10b981;
+}
+
+.service-label {
+    font-size: 11px;
     color: #6b7280;
     text-align: center;
-}
-
-/* Sección de resultados */
-.section-label {
-    font-size: 16px;
     font-weight: 500;
-    color: #1a1a1a;
-    margin-bottom: 16px;
-    display: block;
+    line-height: 1.2;
+    max-width: 64px;
 }
 
-/* Tarjeta de crédito EXACTO como Figma */
-.credit-card-section {
+/* Sección de resultados - columna derecha */
+.card-section {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
     text-align: center;
     margin-bottom: 2rem;
 }
 
-.tariff-badge {
-    margin-bottom: 16px;
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    display: block;
+    text-align: center;
 }
 
-.current-tariff {
+/* Información del tarif */
+.tariff-info {
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+
+.tariff-subtitle {
     display: block;
     font-size: 14px;
     color: #6b7280;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
-.tariff-name {
-    display: inline-block;
+.tariff-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background-color: #14b8a6;
     color: white;
-    padding: 6px 16px;
-    border-radius: 16px;
+    padding: 8px 20px;
+    border-radius: 20px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
+.tariff-badge i {
+    font-size: 12px;
+}
+
+/* Tarjeta de crédito */
 .credit-card {
     position: relative;
-    width: 300px;
-    height: 190px;
-    margin: 0 auto 16px auto;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #1e7b85 0%, #14b8a6 30%, #5eead4 100%);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    width: 280px;
+    height: 175px;
+    margin: 0 auto 1.2rem auto;
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #1e7b85 0%, #14b8a6 30%, #5eead4 100%);
 }
 
 .card-content {
     position: relative;
-    padding: 28px;
+    padding: 24px;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     color: white;
+    z-index: 2;
 }
 
-.visa-logo {
-    font-size: 24px;
+.card-logo {
+    font-size: 22px;
     font-weight: bold;
     text-align: right;
     font-family: Arial, sans-serif;
@@ -389,20 +493,20 @@ body {
 }
 
 .card-number {
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: 4px;
     text-align: center;
     font-family: 'Courier New', monospace;
     margin: 8px 0;
 }
 
-.card-bottom {
+.card-info {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
 }
 
-.card-info {
+.card-note {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -411,22 +515,28 @@ body {
     font-size: 14px;
 }
 
-.card-info i {
+.card-note i {
     color: #14b8a6;
 }
 
-/* Promociones EXACTO como Figma - 4 en línea horizontal */
+/* Sección de promociones */
 .promo-section {
     margin-bottom: 2.5rem;
+    padding: 2rem 0;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-.promo-grid {
+.promo-options {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 1.2rem;
+    justify-items: center;
+    max-width: 350px;
+    margin: 0 auto;
 }
 
-.promo-item {
+.promo-option {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -435,174 +545,205 @@ body {
 }
 
 .promo-circle {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-    background-color: #e5e7eb;
+    background-color: #f3f4f6;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 12px;
-    transition: all 0.2s;
+    margin-bottom: 8px;
+    transition: all 0.3s;
     position: relative;
 }
 
-.promo-circle.active {
+.promo-option.active .promo-circle {
     background-color: #fbbf24;
 }
 
-.promo-circle.active::after {
-    content: '✓';
+.promo-percent {
+    font-size: 16px;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.promo-option.active .promo-percent {
+    color: white;
+}
+
+.promo-check {
     position: absolute;
     top: -8px;
     right: -8px;
     background-color: #14b8a6;
     color: white;
     border-radius: 50%;
-    width: 26px;
-    height: 26px;
-    display: flex;
+    width: 24px;
+    height: 24px;
+    display: none;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 12px;
     border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
 }
 
-.promo-percent {
-    font-size: 22px;
-    font-weight: bold;
-    color: #6b7280;
-}
-
-.promo-circle.active .promo-percent {
-    color: white;
+.promo-option.active .promo-check {
+    display: flex !important;
 }
 
 .promo-text {
-    font-size: 13px;
+    font-size: 10px;
     color: #6b7280;
-    line-height: 1.3;
-    max-width: 85px;
-    font-weight: 400;
+    line-height: 1.2;
+    max-width: 70px;
+    text-align: center;
+    font-weight: 500;
 }
 
-/* Sección de ahorros EXACTO como Figma */
+/* Sección de ahorros */
 .savings-section {
     margin-bottom: 2.5rem;
 }
 
-.savings-amounts {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 28px 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.saving-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-}
-
-.saving-row:last-child {
-    margin-bottom: 0;
-}
-
-.saving-period {
-    font-size: 15px;
-    color: #6b7280;
-    font-weight: 400;
-}
-
-.saving-amount {
+.savings-section .section-title {
+    text-align: left;
     font-size: 18px;
-    font-weight: 700;
+    margin-bottom: 1.2rem;
     color: #1a1a1a;
 }
 
-/* Botón de pedido EXACTO como Figma */
-.order-btn {
+.savings-display {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.saving-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+}
+
+.saving-label {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 6px;
+    order: 2;
+}
+
+.saving-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    order: 1;
+}
+
+/* Botón de orden */
+.order-button {
     width: 100%;
     padding: 18px 24px;
     background-color: #fbbf24;
     color: #1a1a1a;
     border: none;
-    border-radius: 12px;
+    border-radius: 16px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.25);
+    transition: all 0.3s;
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.25);
+    margin-top: auto;
 }
 
-.order-btn:hover {
+.order-button:hover {
     background-color: #f59e0b;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(251, 191, 36, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(251, 191, 36, 0.35);
 }
 
-/* Modal EXACTO como Figma */
+/* Modal */
 .modal-content {
-    border-radius: 24px;
+    border-radius: 16px;
     border: none;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    background-color: #14b8a6;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+    background-color: white;
     overflow: hidden;
+    max-width: 450px;
+    margin: 0 auto;
 }
 
 .modal-header {
-    background-color: transparent;
-    color: white;
+    background-color: white;
+    color: #1a1a1a;
     border-bottom: none;
-    padding: 40px 40px 20px 40px;
+    padding: 50px 50px 25px 50px;
     text-align: center;
     position: relative;
 }
 
 .modal-title {
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 26px;
+    font-weight: 700;
     margin: 0 auto;
-    line-height: 1.2;
+    line-height: 1.3;
+    color: #1a1a1a;
 }
 
 .modal-header .btn-close {
     position: absolute;
-    top: 24px;
-    right: 24px;
-    filter: invert(1);
-    opacity: 0.9;
-    padding: 8px;
-    font-size: 18px;
+    top: 25px;
+    right: 25px;
+    filter: none;
+    opacity: 0.8;
+    padding: 0;
+    font-size: 28px;
     background: none;
     border: none;
+    color: #6b7280;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+}
+
+.modal-header .btn-close::before {
+    content: "×";
+    display: block;
+    line-height: 1;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
 }
 
 .modal-body {
     background-color: white;
-    padding: 40px;
-    border-radius: 0;
+    padding: 0 50px 25px 50px;
 }
 
 .modal-body .form-control {
     border: none;
     border-radius: 12px;
-    padding: 18px 20px;
+    padding: 20px 24px;
     font-size: 16px;
-    background-color: #f3f4f6;
+    background-color: #f8f9fa;
     transition: all 0.2s;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     color: #374151;
+    border: 1px solid transparent;
 }
 
 .modal-body .form-control:focus {
-    background-color: white;
-    border: 2px solid #14b8a6;
-    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+    background-color: #f8f9fa;
+    border: 1px solid #14b8a6;
+    box-shadow: none;
     outline: none;
 }
 
@@ -614,26 +755,29 @@ body {
 .form-check {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 32px;
+    gap: 16px;
+    margin-bottom: 40px;
+    padding: 0;
 }
 
 .form-check-input {
-    margin-top: 2px;
-    border-radius: 6px;
-    border: 2px solid #d1d5db;
-    width: 20px;
-    height: 20px;
-    background-color: white;
+    margin-top: 3px;
+    border-radius: 4px !important;
+    border: 2px solid #d1d5db !important;
+    width: 20px !important;
+    height: 20px !important;
+    background-color: white !important;
+    flex-shrink: 0;
 }
 
 .form-check-input:checked {
-    background-color: #14b8a6;
-    border-color: #14b8a6;
+    background-color: #14b8a6 !important;
+    border-color: #14b8a6 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3e%3cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3e%3c/svg%3e") !important;
 }
 
 .form-check-input:focus {
-    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+    box-shadow: none;
 }
 
 .form-check-label {
@@ -645,9 +789,8 @@ body {
 
 .modal-footer {
     background-color: white;
-    padding: 0 40px 40px 40px;
+    padding: 0 50px 50px 50px;
     border-top: none;
-    border-radius: 0;
 }
 
 .btn-order {
@@ -655,79 +798,170 @@ body {
     color: #1a1a1a;
     border: none;
     border-radius: 12px;
-    padding: 18px 24px;
+    padding: 20px 28px;
     font-size: 16px;
-    font-weight: 600;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.25);
+    font-weight: 700;
+    transition: all 0.3s;
+    box-shadow: none;
+    width: 100%;
 }
 
 .btn-order:hover {
     background-color: #f59e0b;
     color: #1a1a1a;
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(251, 191, 36, 0.35);
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.3);
 }
 
-/* Mensajes */
+.btn-order:focus {
+    background-color: #f59e0b;
+    color: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.25);
+}
+
+/* Mensajes en modal */
+#formMessage {
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+    animation: slideIn 0.3s ease-out;
+}
+
 .success-message {
-    background-color: #d1fae5;
-    color: #065f46;
-    border: 1px solid #a7f3d0;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }
 
 .error-message {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
-/* Responsive - mantener proporciones de Figma */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Campos con error */
+.form-control.is-invalid {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5 !important;
+}
+
+.form-control.is-invalid:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Responsive */
 @media (max-width: 1200px) {
     .calculator-section {
-        padding: 60px 40px 60px 80px;
+        padding: 40px 50px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .calculator-content {
+        max-width: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.8rem;
     }
 
     .results-section {
-        padding: 60px 80px 60px 40px;
-    }
-}
-
-@media (max-width: 991px) {
-    .calculator-section {
-        padding: 40px 60px;
+        padding: 40px 35px;
+        margin: 30px 20px 30px 0;
     }
 
-    .results-section {
-        padding: 40px 60px;
+    .calculator-title {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+        text-align: center;
     }
 
-    .calculator-container,
-    .results-container {
+    .brands-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+        justify-self: center;
         max-width: 100%;
     }
 
-    .brand-icons {
+    .services-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+        gap: 1rem;
+        justify-self: center;
+        max-width: 100%;
     }
 
-    .service-icons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+    .form-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
     }
 
-    .promo-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+    .custom-select-container,
+    .pumping-container {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .fuel-switcher {
+        width: 100%;
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calculator-section,
+    .results-section {
+        padding: 30px 25px;
+    }
+
+    .results-section {
+        margin: 20px 15px 20px 0;
+        border-radius: 16px;
+    }
+
+    .calculator-title {
+        font-size: 2rem;
+        margin-bottom: 1.8rem;
+    }
+
+    .brands-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+    }
+
+    .brand-icon,
+    .service-icon {
+        width: 58px;
+        height: 58px;
+    }
+
+    .promo-circle {
+        width: 65px;
+        height: 65px;
     }
 
     .credit-card {
@@ -735,62 +969,18 @@ body {
         height: 160px;
     }
 
-    .card-content {
-        padding: 24px;
-    }
-}
-
-@media (max-width: 768px) {
-    .calculator-section,
-    .results-section {
-        padding: 30px 40px;
-    }
-
-    .calculator-title {
-        font-size: 1.75rem;
+    .form-section {
         margin-bottom: 2rem;
     }
 
-    .pumping-label {
-        font-size: 24px;
-    }
-
-    .brand-icons {
+    .promo-options {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-    }
-
-    .service-icons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-    }
-
-    .fuel-tabs {
-        flex-direction: column;
-        border-bottom: none;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 4px;
-    }
-
-    .fuel-tab {
-        border-bottom: none;
-        border-radius: 6px;
-        margin-bottom: 0;
-    }
-
-    .fuel-tab.active {
-        background-color: #14b8a6;
-        color: white;
-    }
-
-    .credit-card {
-        width: 240px;
-        height: 150px;
+        gap: 1rem;
     }
 
     .modal-dialog {
         margin: 20px;
+        max-width: calc(100% - 40px);
     }
 
     .modal-header {
@@ -798,114 +988,84 @@ body {
     }
 
     .modal-title {
-        font-size: 24px;
+        font-size: 20px;
+        padding-right: 40px;
     }
 
     .modal-body {
-        padding: 30px;
+        padding: 0 30px 15px 30px;
+    }
+
+    .modal-body .form-control {
+        padding: 16px 18px;
+        font-size: 15px;
     }
 
     .modal-footer {
         padding: 0 30px 30px 30px;
     }
+
+    .btn-order {
+        padding: 16px 20px;
+        font-size: 15px;
+    }
 }
 
-/* Responsive para 360px mínimo */
 @media (max-width: 480px) {
     .calculator-section,
     .results-section {
-        padding: 20px 25px;
+        padding: 25px 20px;
+    }
+
+    .results-section {
+        margin: 15px 10px 15px 0;
+        border-radius: 12px;
     }
 
     .calculator-title {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         margin-bottom: 1.5rem;
     }
 
-    .form-group {
-        margin-bottom: 2rem;
+    .form-section {
+        margin-bottom: 1.8rem;
     }
 
-    .custom-select-display {
-        padding: 14px 40px 14px 16px;
-        font-size: 14px;
+    .brands-grid,
+    .services-grid {
+        gap: 0.6rem;
     }
 
-    .pumping-label {
-        font-size: 20px;
-    }
-
-    .brand-icons,
-    .service-icons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .brand-circle,
-    .service-circle {
-        width: 50px;
-        height: 50px;
-        font-size: 12px;
-    }
-
-    .service-circle i {
-        font-size: 16px;
-    }
-
-    .brand-name,
-    .service-name {
-        font-size: 11px;
-    }
-
-    .credit-card {
-        width: 200px;
-        height: 125px;
-    }
-
-    .card-content {
-        padding: 18px;
-    }
-
-    .visa-logo {
-        font-size: 16px;
-    }
-
-    .card-number {
-        font-size: 16px;
-    }
-
-    .card-bottom {
-        font-size: 11px;
+    .brand-icon,
+    .service-icon {
+        width: 52px;
+        height: 52px;
     }
 
     .promo-circle {
-        width: 60px;
-        height: 60px;
+        width: 55px;
+        height: 55px;
     }
 
-    .promo-percent {
-        font-size: 16px;
+    .credit-card {
+        width: 240px;
+        height: 150px;
     }
 
-    .savings-amounts {
-        padding: 18px;
+    .custom-select-container,
+    .pumping-container {
+        padding: 20px;
+        margin-bottom: 0.8rem;
     }
 
-    .saving-period {
-        font-size: 12px;
-    }
-
-    .saving-amount {
-        font-size: 14px;
-    }
-
-    .order-btn {
-        padding: 16px 20px;
-        font-size: 14px;
+    .promo-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
     }
 
     .modal-dialog {
-        margin: 10px;
+        margin: 15px;
+        max-width: calc(100% - 30px);
     }
 
     .modal-header {
@@ -913,15 +1073,16 @@ body {
     }
 
     .modal-title {
-        font-size: 20px;
+        font-size: 18px;
+        padding-right: 35px;
     }
 
     .modal-body {
-        padding: 25px;
+        padding: 0 25px 15px 25px;
     }
 
     .modal-body .form-control {
-        padding: 16px 18px;
+        padding: 15px 16px;
         font-size: 14px;
     }
 
@@ -934,55 +1095,82 @@ body {
     }
 
     .btn-order {
-        padding: 16px 20px;
+        padding: 15px 18px;
         font-size: 14px;
     }
 }
 
-/* Muy pequeño - 360px exacto */
 @media (max-width: 360px) {
     .calculator-section,
     .results-section {
-        padding: 15px 20px;
+        padding: 20px 15px;
+    }
+
+    .results-section {
+        margin: 10px 5px 10px 0;
     }
 
     .calculator-title {
-        font-size: 1.25rem;
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
     }
 
-    .brand-icons,
-    .service-icons {
-        gap: 10px;
+    .form-section {
+        margin-bottom: 1.5rem;
     }
 
-    .brand-circle,
-    .service-circle {
-        width: 45px;
-        height: 45px;
+    .brands-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
     }
 
-    .credit-card {
-        width: 180px;
-        height: 115px;
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+
+    .brand-icon,
+    .service-icon {
+        width: 48px;
+        height: 48px;
     }
 
     .promo-circle {
-        width: 55px;
-        height: 55px;
+        width: 50px;
+        height: 50px;
     }
 
-    .savings-amounts {
-        padding: 15px;
+    .credit-card {
+        width: 220px;
+        height: 140px;
     }
 
-    .modal-dialog {
-        margin: 5px;
+    .brand-letter {
+        font-size: 16px;
     }
 
-    .modal-header,
-    .modal-body,
-    .modal-footer {
-        padding-left: 20px;
-        padding-right: 20px;
+    .brand-label,
+    .service-label {
+        font-size: 10px;
+    }
+
+    .promo-percent {
+        font-size: 14px;
+    }
+
+    .promo-text {
+        font-size: 9px;
+        max-width: 50px;
+    }
+
+    .custom-select-container,
+    .pumping-container {
+        padding: 16px;
+        margin-bottom: 0.6rem;
+    }
+
+    .promo-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
     }
 }

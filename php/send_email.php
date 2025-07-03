@@ -6,22 +6,26 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+    echo json_encode(['success' => false, 'message' => 'Метод не разрешен']);
     exit;
 }
 
-// Validación de datos
+// Configuración de emails
+$empresaEmail = 'pedidos@ejemplo-empresa.com'; // CAMBIAR por email real
+$enviarEmail = false; // Cambiar a true para activar envío de emails
+
+// Función de validación completa
 function validateInput($data) {
     $errors = [];
 
-    // Validar ИНН (12 dígitos)
+    // Validar ИНН (exactamente 12 dígitos)
     if (!isset($data['inn']) || !preg_match('/^\d{12}$/', $data['inn'])) {
-        $errors[] = 'ИНН должен содержать 12 цифр';
+        $errors[] = 'ИНН должен содержать точно 12 цифр';
     }
 
-    // Validar teléfono (11 dígitos)
+    // Validar телефон (exactamente 11 dígitos)
     if (!isset($data['phone']) || !preg_match('/^\d{11}$/', $data['phone'])) {
-        $errors[] = 'Телефон должен содержать 11 цифр';
+        $errors[] = 'Телефон должен содержать точно 11 цифр';
     }
 
     // Validar email
@@ -29,22 +33,49 @@ function validateInput($data) {
         $errors[] = 'Некорректный email адрес';
     }
 
-    // Validar datos del calculador
+    // Validar campos requeridos del cálculo
     $requiredFields = ['region', 'pumping', 'fuelType', 'brand', 'tariff'];
     foreach ($requiredFields as $field) {
         if (!isset($data[$field]) || empty($data[$field])) {
-            $errors[] = "Отсутствует поле: $field";
+            $errors[] = "Отсутствует поле расчета: $field";
         }
     }
 
     return $errors;
 }
 
-// Obtener datos
-$data = $_POST;
+// Función para guardar pedido en log
+function saveOrderToLog($data) {
+    $logFile = __DIR__ . '/orders.log';
+    $logEntry = [
+        'timestamp' => date('Y-m-d H:i:s'),
+        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'Unknown',
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown',
+        'data' => $data
+    ];
 
-// Validar
+    $logLine = date('Y-m-d H:i:s') . " | " .
+        json_encode($logEntry, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) .
+        "\n" . str_repeat("-", 80) . "\n";
+
+    // Crear directorio si no existe
+    $logDir = dirname($logFile);
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true);
+    }
+
+    // Escribir al archivo de log
+    if (file_put_contents($logFile, $logLine, FILE_APPEND | LOCK_EX) === false) {
+        error_log("ERROR: No se pudo escribir en el archivo de log: $logFile");
+        return false;
+    }
+    return true;
+}
+
+// Obtener y validar datos del POST
+$data = $_POST;
 $errors = validateInput($data);
+
 if (!empty($errors)) {
     echo json_encode([
         'success' => false,
@@ -53,7 +84,7 @@ if (!empty($errors)) {
     exit;
 }
 
-// Limpiar y preparar datos
+// Limpiar y sanitizar datos
 $cleanData = [
     'inn' => htmlspecialchars(trim($data['inn'])),
     'phone' => htmlspecialchars(trim($data['phone'])),
@@ -71,40 +102,14 @@ $cleanData = [
     'yearlySavings' => isset($data['yearlySavings']) ? (int)$data['yearlySavings'] : 0
 ];
 
-// Traducir tipos de combustible
-$fuelTypeNames = [
-    'benzin' => 'Бензин',
-    'gaz' => 'Газ',
-    'dt' => 'ДТ'
-];
-
-$tariffNames = [
-    'econom' => 'Эконом',
-    'selected' => 'Избранный',
-    'premium' => 'Премиум'
-];
-
-$brandNames = [
-    'shell' => 'Shell',
-    'tatneft' => 'Татнефть',
-    'rosneft' => 'Роснефть',
-    'lukoil' => 'Лукойл',
-    'gazprom' => 'Газпром',
-    'bashneft' => 'Башнефть'
-];
-
-// Crear contenido del email
+// Crear contenido del email con formato profesional
 $subject = 'Новая заявка на тариф: ' . $cleanData['tariff'];
 
 $emailContent = "
 === ЗАЯВКА НА ТАРИФ ===
 
-ДАННЫЕ КЛИЕНТА:
-• ИНН: {$cleanData['inn']}
-• Телефон: {$cleanData['phone']}
-• Email: {$cleanData['email']}
-
 РЕЗУЛЬТАТЫ РАСЧЕТА:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 • Регион: {$cleanData['region']}
 • Прокачка: {$cleanData['pumping']} тонн
 • Тип топлива: {$cleanData['fuelType']}
@@ -117,62 +122,100 @@ $emailContent = "
 • Экономия в месяц: " . number_format($cleanData['monthlySavings']) . " ₽
 • Экономия в год: " . number_format($cleanData['yearlySavings']) . " ₽
 
----
+ДАННЫЕ ЗАПОЛНЕНИЯ ФОРМЫ:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• ИНН: {$cleanData['inn']}
+• Телефон для связи: {$cleanData['phone']}
+• Email для связи: {$cleanData['email']}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Заявка отправлена: " . date('d.m.Y H:i:s') . "
-IP адрес: " . ($_SERVER['REMOTE_ADDR'] ?? 'Unknown') . "
+IP адрес клиента: " . ($_SERVER['REMOTE_ADDR'] ?? 'Неизвестен') . "
+User Agent: " . ($_SERVER['HTTP_USER_AGENT'] ?? 'Неизвестен') . "
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ";
 
-// Headers del email
+// Headers para el email
 $headers = [
-    'From: noreply@' . ($_SERVER['HTTP_HOST'] ?? 'localhost'),
+    'From: Калькулятор Тарифов <noreply@' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . '>',
     'Reply-To: ' . $cleanData['email'],
     'X-Mailer: PHP/' . phpversion(),
-    'Content-Type: text/plain; charset=UTF-8'
+    'Content-Type: text/plain; charset=UTF-8',
+    'Content-Transfer-Encoding: 8bit',
+    'X-Priority: 3',
+    'X-MSMail-Priority: Normal'
 ];
 
-// Intentar enviar email
+// Procesar el pedido
 try {
-    $emailSent = mail(
-        $cleanData['email'], // Enviar al email del cliente
-        $subject,
-        $emailContent,
-        implode("\r\n", $headers)
-    );
+    // SIEMPRE guardar en log primero (es lo más importante)
+    $logSaved = saveOrderToLog($cleanData);
 
-    if ($emailSent) {
-        // Log exitoso (opcional)
-        error_log("Email enviado exitosamente a: " . $cleanData['email']);
+    $response = [
+        'success' => true,
+        'message' => 'Заявка принята и сохранена',
+        'log_saved' => $logSaved
+    ];
 
-        echo json_encode([
-            'success' => true,
-            'message' => 'Заявка успешно отправлена'
-        ]);
+    // Intentar envío por email si está habilitado
+    if ($enviarEmail) {
+        $emailSent = mail(
+            $empresaEmail,
+            $subject,
+            $emailContent,
+            implode("\r\n", $headers)
+        );
+
+        if ($emailSent) {
+            error_log("✅ Email enviado exitosamente a: $empresaEmail");
+            $response['email_sent'] = true;
+            $response['message'] = 'Спасибо! Успешно отправлено.';
+
+            // Email de confirmación al cliente
+            $confirmSubject = 'Подтверждение заявки на тариф';
+            $confirmMessage = "Спасибо за ваш запрос на тариф {$cleanData['tariff']}!\n\nМы получили вашу заявку и свяжемся с вами в ближайшее время.\n\nВаши данные:\n• ИНН: {$cleanData['inn']}\n• Телефон: {$cleanData['phone']}\n\nС уважением,\nКоманда Калькулятора Тарифов";
+
+            mail($cleanData['email'], $confirmSubject, $confirmMessage, implode("\r\n", $headers));
+
+        } else {
+            error_log("❌ Error enviando email a: $empresaEmail (но данные сохранены в log)");
+            $response['email_sent'] = false;
+            $response['message'] = 'Заявка сохранена (временные проблемы с email)';
+        }
     } else {
-        // Log error
-        error_log("Error enviando email a: " . $cleanData['email']);
-
-        echo json_encode([
-            'success' => false,
-            'message' => 'Ошибка при отправке email'
-        ]);
+        error_log("📝 Email отключен - заявка только в log");
+        $response['email_sent'] = false;
     }
 
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
 } catch (Exception $e) {
-    error_log("Excepción al enviar email: " . $e->getMessage());
+    error_log("CRITICAL ERROR: " . $e->getMessage());
 
-    echo json_encode([
-        'success' => false,
-        'message' => 'Ошибка сервера при отправке'
-    ]);
+    // Intentar guardar en log incluso si hay error
+    try {
+        saveOrderToLog($cleanData);
+        echo json_encode([
+            'success' => true,
+            'message' => 'Заявка сохранена (проблемы сервера с email)',
+            'error_details' => $e->getMessage()
+        ], JSON_UNESCAPED_UNICODE);
+    } catch (Exception $logException) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Критическая ошибка сервера',
+            'error' => 'Не удалось сохранить заявку'
+        ], JSON_UNESCAPED_UNICODE);
+    }
 }
 
-// Opcional: Guardar en base de datos o archivo log
-function saveToLog($data) {
+// Limpieza ocasional de logs antiguos (rotación automática)
+if (rand(1, 100) === 1) {
     $logFile = __DIR__ . '/orders.log';
-    $logEntry = date('Y-m-d H:i:s') . " | " . json_encode($data) . "\n";
-    file_put_contents($logFile, $logEntry, FILE_APPEND | LOCK_EX);
+    if (file_exists($logFile) && filesize($logFile) > 10 * 1024 * 1024) { // Si es mayor a 10MB
+        $oldFile = __DIR__ . '/orders_backup_' . date('Y-m-d') . '.log';
+        rename($logFile, $oldFile);
+        error_log("Log rotado: archivo guardado como $oldFile");
+    }
 }
-
-// Guardar log de la orden
-saveToLog($cleanData);
 ?>

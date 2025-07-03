@@ -1,60 +1,73 @@
 $(document).ready(function() {
 
-    // Configuración de datos
+    // Configuración EXACTA según requerimientos del proyecto
     const fuelData = {
         benzin: {
-            price: 500200, // precio por tonelada
-            brands: ['shell', 'tatneft', 'rosneft'],
-            tariffLimits: { econom: 100, premium: 300 }
+            price: 500200, // precio por tonelada en rublos
+            brands: ['rosneft', 'tatneft', 'lukoil'], // SIN Shell para benzin
+            tariffLimits: { econom: 100, premium: 300 } // hasta 100=Эконом, 100-300=Избранный, 300+=Премиум
         },
         gaz: {
-            price: 200100,
-            brands: ['shell', 'gazprom', 'bashneft'],
-            tariffLimits: { econom: 200, premium: 700 }
+            price: 200100, // precio por tonelada en rublos
+            brands: ['shell', 'gazprom', 'bashneft'], // CON Shell para gaz
+            tariffLimits: { econom: 200, premium: 700 } // hasta 200=Эконом, 200-700=Избранный, 700+=Премиум
         },
         dt: {
-            price: 320700,
-            brands: ['tatneft', 'rosneft'],
-            tariffLimits: { econom: 150, premium: 350 }
+            price: 320700, // precio por tonelada en rublos
+            brands: ['tatneft', 'lukoil'], // SOLO estos 2 para dt
+            tariffLimits: { econom: 150, premium: 350 } // hasta 150=Эконом, 150-350=Избранный, 350+=Премиум
         }
     };
 
     const regionLimits = {
-        1: 1200, // Москва
-        2: 800,  // Санкт-Петербург
-        3: 500   // Краснодар
+        1: 1200, // Москва: макс. 1200 тонн
+        2: 800,  // Санкт-Петербург: макс. 800 тонн
+        3: 500   // Краснодар: макс. 500 тонн
     };
 
     const tariffDiscounts = {
-        econom: 0.03,    // 3%
-        premium: 0.05,   // 5%
-        selected: 0.07   // 7%
+        econom: 0.03,    // Эконом: 3%
+        selected: 0.05,  // Избранный: 5%
+        premium: 0.07    // Премиум: 7%
     };
 
     const promoOptions = {
-        econom: [0.02, 0.05],     // 2%, 5%
-        selected: [0.05, 0.20],   // 5%, 20%
-        premium: [0.20, 0.50]     // 20%, 50%
+        econom: [0.02, 0.05],     // Эконом: 2%, 5%
+        selected: [0.05, 0.20],   // Избранный: 5%, 20%
+        premium: [0.20, 0.50]     // Премиум: 20%, 50%
     };
 
     // Estado actual del calculador
     let currentState = {
-        region: '',
+        region: '1',
         pumping: 200,
         fuelType: 'benzin',
-        brand: '',
-        services: [],
+        brand: 'rosneft', // Primera marca disponible para benzin
+        services: ['pasluga', 'support'], // Solo 2 servicios pre-seleccionados
         tariff: 'selected',
-        promo: 0.05
+        promo: 0.20, // Por defecto la promoción más alta
+        calculations: {
+            monthlyCost: 0,
+            monthlySavings: 0,
+            yearlySavings: 0,
+            totalDiscountPercent: 0
+        }
     };
 
     // Inicialización
     init();
 
     function init() {
+        // Limpiar estado inicial forzadamente
+        $('.service-option').removeClass('active');
+        // Solo activar los servicios del estado inicial
+        currentState.services.forEach(service => {
+            $(`.service-option[data-service="${service}"]`).addClass('active');
+        });
+
         updateBrands();
-        updateSlider();
-        calculateAll();
+        updateSliderDisplay();
+        calculateAllAjax(); // Usar AJAX desde el inicio
         bindEvents();
     }
 
@@ -82,7 +95,7 @@ $(document).ready(function() {
             currentState.region = value;
             if (value) {
                 updateSliderMax(maxPumping);
-                calculateAllAjax(); // Usar AJAX
+                calculateAllAjax(); // AJAX en cada cambio
             }
         });
 
@@ -92,74 +105,71 @@ $(document).ready(function() {
             $('#regionDisplay').removeClass('active');
         });
 
-        // Cambio de región (mantenemos por compatibilidad)
-        $('#regionSelect').on('change', function() {
-            currentState.region = $(this).val();
-            if (currentState.region) {
-                const maxPumping = regionLimits[currentState.region];
-                updateSliderMax(maxPumping);
-                calculateAllAjax();
-            }
-        });
-
         // Slider de прокачка
         $('#pumpingRange').on('input', function() {
             currentState.pumping = parseInt($(this).val());
-            updatePumpingDisplay();
-            calculateAllAjax(); // Usar AJAX
+            updateSliderDisplay();
+            calculateAllAjax(); // AJAX en cada cambio
         });
 
         // Tabs de combustible
-        $('.fuel-tab').on('click', function() {
-            $('.fuel-tab').removeClass('active');
+        $('.fuel-btn').on('click', function() {
+            $('.fuel-btn').removeClass('active');
             $(this).addClass('active');
             currentState.fuelType = $(this).data('fuel');
             updateBrands();
-            calculateAllAjax(); // Usar AJAX
+            calculateAllAjax(); // AJAX en cada cambio
         });
 
         // Selección de marcas
-        $('.brand-item').on('click', function() {
+        $('.brand-option').on('click', function() {
             const fuelBrands = fuelData[currentState.fuelType].brands;
             const brandId = $(this).data('brand');
 
             if (fuelBrands.includes(brandId)) {
-                $('.brand-item').removeClass('active');
+                $('.brand-option').removeClass('active');
                 $(this).addClass('active');
                 currentState.brand = brandId;
-                calculateAllAjax(); // Usar AJAX
+                calculateAllAjax(); // AJAX en cada cambio
             }
         });
 
         // Servicios adicionales (máximo 4)
-        $('.service-item').on('click', function() {
+        $('.service-option').on('click', function() {
             const isActive = $(this).hasClass('active');
-            const activeCount = $('.service-item.active').length;
+            const activeCount = $('.service-option.active').length;
 
             if (isActive) {
-                // Si está activo, desactivar
+                // Si está activo, desactivar (SIEMPRE permitir desactivar)
                 $(this).removeClass('active');
                 updateServices();
-                calculateAllAjax(); // Usar AJAX
+                calculateAllAjax();
             } else if (activeCount < 4) {
                 // Si no está activo y hay menos de 4, activar
                 $(this).addClass('active');
                 updateServices();
-                calculateAllAjax(); // Usar AJAX
+                calculateAllAjax();
             } else {
                 // Si ya hay 4 servicios, mostrar mensaje
                 alert('Можно выбрать не более 4 услуг');
             }
         });
 
-        // Promociones
-        $(document).on('click', '.promo-item', function() {
-            $('.promo-item .promo-circle').removeClass('yellow').addClass('gray');
-            $(this).find('.promo-circle').removeClass('gray').addClass('yellow');
+        // Promociones - CON PALOMITA QUE SE MUEVE CORRECTAMENTE
+        $('.promo-option').on('click', function() {
+            // Remover active de todas las promociones
+            $('.promo-option').removeClass('active');
+
+            // Activar la seleccionada
+            $(this).addClass('active');
 
             const promoValue = parseFloat($(this).data('promo'));
             currentState.promo = promoValue;
-            calculateAllAjax(); // Usar AJAX
+
+            console.log('Promoción seleccionada:', promoValue); // Debug
+            console.log('Elemento activo:', $(this)); // Debug
+
+            calculateAllAjax(); // AJAX en cada cambio
         });
 
         // Envío del formulario modal
@@ -186,14 +196,14 @@ $(document).ready(function() {
         if (currentState.pumping > maxValue) {
             currentState.pumping = maxValue;
             $('#pumpingRange').val(maxValue);
-            updatePumpingDisplay();
+            updateSliderDisplay();
         }
     }
 
-    function updatePumpingDisplay() {
-        $('.pumping-label').text(currentState.pumping + ' тонн');
+    function updateSliderDisplay() {
+        $('#pumpingDisplay').text(currentState.pumping + ' тонн');
 
-        // Actualizar el progreso visual del slider
+        // Actualizar el progreso visual del slider con el color correcto
         const slider = $('#pumpingRange');
         const max = parseInt(slider.attr('max'));
         const percentage = (currentState.pumping / max) * 100;
@@ -206,7 +216,7 @@ $(document).ready(function() {
     function updateBrands() {
         const availableBrands = fuelData[currentState.fuelType].brands;
 
-        $('.brand-item').each(function() {
+        $('.brand-option').each(function() {
             const brandId = $(this).data('brand');
             if (availableBrands.includes(brandId)) {
                 $(this).removeClass('disabled').css('opacity', '1');
@@ -219,18 +229,109 @@ $(document).ready(function() {
         // Auto-seleccionar la primera marca disponible si no hay ninguna seleccionada
         if (!currentState.brand || !availableBrands.includes(currentState.brand)) {
             currentState.brand = availableBrands[0];
-            $(`.brand-item[data-brand="${currentState.brand}"]`).addClass('active');
+            $('.brand-option').removeClass('active');
+            $(`.brand-option[data-brand="${currentState.brand}"]`).addClass('active');
         }
     }
 
     function updateServices() {
         currentState.services = [];
-        $('.service-item.active').each(function() {
-            currentState.services.push($(this).find('.service-name').text());
+        $('.service-option.active').each(function() {
+            currentState.services.push($(this).data('service'));
         });
     }
 
-    function calculateTariff() {
+    // FUNCIÓN AJAX PRINCIPAL para cálculos en tiempo real
+    function calculateAllAjax() {
+        if (!currentState.region || !currentState.brand) {
+            calculateAllLocal(); // Fallback local
+            return;
+        }
+
+        const calculationData = {
+            region: currentState.region,
+            pumping: currentState.pumping,
+            fuelType: currentState.fuelType,
+            brand: currentState.brand,
+            promo: currentState.promo
+        };
+
+        $.ajax({
+            url: 'php/calculate.php',
+            method: 'POST',
+            data: calculationData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Actualizar estado con datos del backend
+                    currentState.tariff = response.data.tariff;
+                    currentState.calculations = {
+                        monthlyCost: response.data.monthlyCost,
+                        monthlySavings: response.data.monthlySavings,
+                        yearlySavings: response.data.yearlySavings,
+                        totalDiscountPercent: response.data.totalDiscount
+                    };
+
+                    // Actualizar interfaz
+                    updateUIWithCalculations(response.data);
+                } else {
+                    console.error('Error en cálculo AJAX:', response.error);
+                    calculateAllLocal(); // Fallback
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error AJAX:', error);
+                calculateAllLocal(); // Fallback a cálculo local
+            }
+        });
+    }
+
+    function updateUIWithCalculations(data) {
+        // Actualizar nombre de tarifa
+        const tariffNames = {
+            econom: 'Эконом',
+            selected: 'Избранный',
+            premium: 'Премиум'
+        };
+
+        $('#currentTariffBadge').html(`<i class="fas fa-star"></i> ${tariffNames[data.tariff]}`);
+        $('#orderTariffName').text(tariffNames[data.tariff]);
+        $('.modal-title').text(`Заказать тариф «${tariffNames[data.tariff]}»`);
+
+        // Actualizar opciones de promoción disponibles
+        updatePromoOptions();
+
+        // Actualizar valores de economía
+        $('#yearlySavings').text(data.formatted.yearlySavings);
+        $('#monthlySavings').text(data.formatted.monthlySavings);
+    }
+
+    // Fallback: cálculo local (mismo algoritmo que en PHP)
+    function calculateAllLocal() {
+        if (!currentState.region || !currentState.brand) return;
+
+        // Calcular tarifa según las reglas exactas
+        currentState.tariff = calculateTariffLocal();
+
+        // Actualizar interfaz
+        const tariffNames = {
+            econom: 'Эконом',
+            selected: 'Избранный',
+            premium: 'Премиум'
+        };
+
+        $('#currentTariffBadge').html(`<i class="fas fa-star"></i> ${tariffNames[currentState.tariff]}`);
+        $('#orderTariffName').text(tariffNames[currentState.tariff]);
+        $('.modal-title').text(`Заказать тариф «${tariffNames[currentState.tariff]}»`);
+
+        // Actualizar opciones de promoción
+        updatePromoOptions();
+
+        // Calcular costos localmente
+        calculateCostsLocal();
+    }
+
+    function calculateTariffLocal() {
         const fuel = fuelData[currentState.fuelType];
         const pumping = currentState.pumping;
 
@@ -243,54 +344,32 @@ $(document).ready(function() {
         }
     }
 
-    function calculateAll() {
-        if (!currentState.region || !currentState.brand) return;
-
-        // Calcular tarifa
-        currentState.tariff = calculateTariff();
-
-        // Actualizar nombre de tarifa
-        const tariffNames = {
-            econom: 'Эконом',
-            selected: 'Избранный',
-            premium: 'Премиум'
-        };
-
-        $('.tariff-name').text(tariffNames[currentState.tariff]);
-        $('#orderTariffName, .modal-title').text(`Заказать тариф «${tariffNames[currentState.tariff]}»`);
-
-        // Actualizar opciones de promoción
-        updatePromoOptions();
-
-        // Calcular costos
-        calculateCosts();
-    }
-
     function updatePromoOptions() {
         const availablePromos = promoOptions[currentState.tariff];
-        let promoHtml = '';
 
-        availablePromos.forEach((promo, index) => {
-            const isActive = index === 1; // Por defecto seleccionar la promoción más alta
-            const circleClass = isActive ? 'yellow' : 'gray';
-
-            promoHtml += `
-                <div class="promo-item" data-promo="${promo}">
-                    <div class="promo-circle ${circleClass}">
-                        <span class="promo-percent">${Math.round(promo * 100)}%</span>
-                    </div>
-                    <span class="promo-text">Скидка на топливо</span>
-                </div>
-            `;
+        // Mostrar/ocultar promociones según tarifa
+        $('.promo-option').each(function(index) {
+            if (index < availablePromos.length) {
+                const promoValue = availablePromos[index];
+                $(this).attr('data-promo', promoValue);
+                $(this).find('.promo-percent').text(Math.round(promoValue * 100) + '%');
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
 
-        $('#promoOptions').html(promoHtml);
+        // Auto-seleccionar la promoción más alta (por defecto)
+        if (!availablePromos.includes(currentState.promo)) {
+            currentState.promo = Math.max(...availablePromos);
+        }
 
-        // Seleccionar automáticamente la promoción más alta
-        currentState.promo = availablePromos[availablePromos.length - 1];
+        // ACTUALIZAR LA PALOMITA EN LA PROMOCIÓN CORRECTA
+        $('.promo-option').removeClass('active');
+        $(`.promo-option[data-promo="${currentState.promo}"]`).addClass('active');
     }
 
-    function calculateCosts() {
+    function calculateCostsLocal() {
         const fuel = fuelData[currentState.fuelType];
         const baseCost = fuel.price * currentState.pumping;
 
@@ -318,8 +397,8 @@ $(document).ready(function() {
         };
 
         // Actualizar UI
-        $('.saving-row').eq(0).find('.saving-amount').text('от ' + formatNumber(yearlySavings));
-        $('.saving-row').eq(1).find('.saving-amount').text('от ' + formatNumber(monthlySavings));
+        $('#yearlySavings').text('от ' + formatNumber(yearlySavings));
+        $('#monthlySavings').text('от ' + formatNumber(monthlySavings));
 
         // Guardar valores para envío
         currentState.calculations = {
@@ -328,10 +407,6 @@ $(document).ready(function() {
             yearlySavings: yearlySavings,
             totalDiscountPercent: Math.round((tariffDiscount + promoDiscount) * 100)
         };
-    }
-
-    function updateSlider() {
-        updatePumpingDisplay();
     }
 
     // Validaciones
@@ -375,8 +450,6 @@ $(document).ready(function() {
     }
 
     function submitOrder() {
-        const form = $('#orderForm')[0];
-
         // Validar todos los campos
         const inn = $('#clientInn').val();
         const phone = $('#clientPhone').val();
@@ -407,21 +480,21 @@ $(document).ready(function() {
         }
 
         if (!isValid) {
-            showMessage('error', 'Ошибка: ' + errors.join(', '));
+            showMessage('error', '<i class="fas fa-exclamation-triangle"></i> ' + errors.join('<br>• '));
             return;
         }
 
-        // Показать loading
+        // Показrar loading
         $('#submitOrder').prop('disabled', true).text('Отправка...');
 
-        // Preparar datos para envío (incluyendo cálculos)
+        // Preparar datos COMPLETOS para envío
         const orderData = {
-            // Datos kalkulátора
-            region: $('#regionSelect option:selected').text(),
+            // Результаты расчета (como especifica el requerimiento)
+            region: $('#regionDisplay .selected-text').text(),
             pumping: currentState.pumping,
             fuelType: getFuelTypeName(currentState.fuelType),
             brand: getBrandName(currentState.brand),
-            services: currentState.services.join(', ') || 'Нет',
+            services: getServicesNames().join(', ') || 'Нет',
             tariff: getTariffName(currentState.tariff),
             promo: Math.round(currentState.promo * 100) + '%',
             monthlyCost: Math.round(currentState.calculations.monthlyCost),
@@ -429,7 +502,7 @@ $(document).ready(function() {
             monthlySavings: Math.round(currentState.calculations.monthlySavings),
             yearlySavings: Math.round(currentState.calculations.yearlySavings),
 
-            // Данные клиента
+            // Данные заполнения формы
             inn: inn,
             phone: phone,
             email: email
@@ -443,84 +516,41 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    showMessage('success', 'Спасибо! Успешно отправлено.');
+                    showMessage('success', '<i class="fas fa-check-circle"></i> Спасибо! Заявка успешно отправлена.');
                     $('#orderForm')[0].reset();
                 } else {
-                    showMessage('error', 'Ошибка: ' + response.message);
+                    showMessage('error', '<i class="fas fa-exclamation-triangle"></i> ' + response.message);
                 }
             },
             error: function() {
-                showMessage('error', 'Ошибка: Не удалось отправить данные');
+                showMessage('error', '<i class="fas fa-times-circle"></i> Ошибка соединения. Попробуйте снова.');
             },
             complete: function() {
-                $('#submitOrder').prop('disabled', false).text('Заказать тариф «Избранный»');
+                $('#submitOrder').prop('disabled', false).text('Заказать тариф «' + getTariffName(currentState.tariff) + '»');
             }
         });
     }
 
     function showMessage(type, text) {
         const messageClass = type === 'success' ? 'success-message' : 'error-message';
-        $('#formMessage').removeClass('success-message error-message')
-            .addClass(messageClass)
-            .text(text)
-            .show();
+        const messageElement = $('#formMessage');
 
+        // Limpiar clases anteriores y agregar la nueva
+        messageElement.removeClass('success-message error-message')
+            .addClass(messageClass)
+            .html(text) // Usar html en lugar de text para permitir iconos
+            .fadeIn(300); // Animación suave de entrada
+
+        // Para mensajes de éxito, ocultarlos automáticamente
         if (type === 'success') {
             setTimeout(() => {
-                $('#formMessage').fadeOut();
-            }, 3000);
+                messageElement.fadeOut(400);
+                // También cerrar el modal después del éxito
+                setTimeout(() => {
+                    $('#orderModal').modal('hide');
+                }, 500);
+            }, 2500);
         }
-    }
-
-    // Función AJAX para cálculos en backend
-    function calculateAllAjax() {
-        if (!currentState.region || !currentState.brand) {
-            calculateAll(); // Fallback a cálculo local
-            return;
-        }
-
-        const calculationData = {
-            region: currentState.region,
-            pumping: currentState.pumping,
-            fuelType: currentState.fuelType,
-            brand: currentState.brand,
-            promo: currentState.promo
-        };
-
-        $.ajax({
-            url: 'php/calculate.php',
-            method: 'POST',
-            data: calculationData,
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    // Actualizar UI con datos del backend
-                    currentState.tariff = response.data.tariff;
-                    currentState.calculations = {
-                        monthlyCost: response.data.monthlyCost,
-                        monthlySavings: response.data.monthlySavings,
-                        yearlySavings: response.data.yearlySavings,
-                        totalDiscountPercent: response.data.totalDiscount
-                    };
-
-                    // Actualizar interfaz
-                    $('.tariff-name').text(response.data.tariffName);
-                    $('#orderTariffName, .modal-title').text(`Заказать тариф «${response.data.tariffName}»`);
-
-                    updatePromoOptions();
-
-                    $('.saving-row').eq(0).find('.saving-amount').text(response.data.formatted.yearlySavings);
-                    $('.saving-row').eq(1).find('.saving-amount').text(response.data.formatted.monthlySavings);
-                } else {
-                    console.error('Error en cálculo:', response.error);
-                    calculateAll(); // Fallback
-                }
-            },
-            error: function() {
-                console.error('Error AJAX');
-                calculateAll(); // Fallback a cálculo local
-            }
-        });
     }
 
     // Funciones auxiliares para nombres
@@ -540,6 +570,16 @@ $(document).ready(function() {
     function getTariffName(tariff) {
         const names = { econom: 'Эконом', selected: 'Избранный', premium: 'Премиум' };
         return names[tariff] || tariff;
+    }
+
+    function getServicesNames() {
+        const serviceNames = {
+            shtraf: 'Штрафы', pasluga: 'Паслуги', sms: 'СМС',
+            monitoring: 'Мониторинг', support: 'Поддержка', express: 'Экспресс',
+            reports: 'Отчеты', sms2: 'СМС', notifications: 'Оповещения'
+        };
+
+        return currentState.services.map(service => serviceNames[service] || service);
     }
 
 });
